@@ -5,6 +5,13 @@ public class Obstacle {
     int rowLocation;
     int colLocation;
 
+    String initial;
+
+    public Obstacle(String name, String initial) {
+        this.name = name;
+        this.initial = initial;
+    }
+
     public Obstacle(String name) {
         this.name = name;
     }
@@ -36,5 +43,13 @@ public class Obstacle {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getInitial() {
+        return initial;
+    }
+
+    public void setInitial(String initial) {
+        this.initial = initial;
     }
 }

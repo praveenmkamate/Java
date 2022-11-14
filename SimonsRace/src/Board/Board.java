@@ -25,8 +25,7 @@ public class Board {
                 if(board[i][j] == null){
                     System.out.print("_ ");
                 } else if((board[i][j].getObstacle()) instanceof Obstacle){
-                    //System.out.print(board[i][j].getObstacle().getName()+" ");
-                    System.out.print("X ");
+                    System.out.print(board[i][j].getObstacle().getInitial()+" ");
                 } else if((board[i][j].getPlayer()) instanceof Player){
                     System.out.print(board[i][j].getPlayer().getInitial()+" ");
                 } else {

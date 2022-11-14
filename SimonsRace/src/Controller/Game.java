@@ -15,17 +15,24 @@ public class Game {
 
     static List<Player> playerList = new ArrayList<>();
 
+    static Board board = new Board(rows, columns);
+
     public static void main(String args[]) {
 
-        Board board = new Board(rows, columns);
+        Scanner input = new Scanner(System.in);
+        int checkCount;
+        boolean edgeCase;
 
         Player player1 = new Player("Bharath", "B");
         Player player2 = new Player("Nithin", "N");
 
-        Obstacle obstacle1 = new Obstacle("Pit");
+        Obstacle pillar1 = new Obstacle("Pillar", "P");
+        Obstacle pillar2 = new Obstacle("Pillar", "P");
 
         InitializePlayer(board, player1, rows, 1);
+        //InitializeObstacle(board, pillar1, 3, 1);
         InitializePlayer(board, player2, rows, 3);
+        //InitializeObstacle(board, pillar1, 5, 3);
 
         board.printBoard();
         System.out.println("Starting the Game!");
@@ -41,62 +48,71 @@ public class Game {
                     int count = dice.generateCount();
                     String direction = dice.generateDirection();
                     System.out.println("Count:" + count + " Direction:" + direction);
-                    int checkCount;
+                    checkCount = count;
+                    edgeCase = false;
 
-                    switch (direction) {
-                        case "FORWARD":
-                            checkCount = 1;
-
-                            if (currentPlayer.getRowLocation() - count < 0) {
-                                System.out.println("Almost there. Try Again!");
-                                break;
-                            } else {
-                                while (checkCount <= count) {
+                    while (checkCount > 0 && edgeCase == false) {
+                        switch (direction) {
+                            case "FORWARD":
+                                if (currentPlayer.getRowLocation() - checkCount  < 0) {
+                                    System.out.println("Almost there. Try Again!");
+                                    edgeCase = true;
+                                    break;
+                                } else {
                                     if (board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()) == null) {
                                         board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
                                         currentPlayer.setRowLocation(currentPlayer.getRowLocation() - 1);
                                         board.setBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), new BoardCell(currentPlayer));
-                                        checkCount++;
+                                        checkCount--;
                                         if (checkWinningCondition(currentPlayer)) {
                                             isWin = true;
                                             break;
                                         }
-                                    } else {
-                                        break;
                                     }
                                 }
-                                board.printBoard();
                                 break;
-                            }
-
-
-                        case "BACKWARD":
-                            if (currentPlayer.getRowLocation() + count > rows - 1) {
-                                System.out.println("Sorry, You cannot go outside the board!");
-                                break;
-                            } else {
-                                checkCount = 1;
-                                while (checkCount <= count) {
+                            case "BACKWARD":
+                                if (currentPlayer.getRowLocation() + checkCount > rows - 1) {
+                                    System.out.println("Sorry, You cannot go outside the board!");
+                                    edgeCase = true;
+                                    break;
+                                } else {
                                     if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()) == null) {
                                         board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
                                         currentPlayer.setRowLocation(currentPlayer.getRowLocation() + 1);
                                         board.setBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), new BoardCell(currentPlayer));
-                                        checkCount++;
+                                        checkCount--;
                                         if (checkWinningCondition(currentPlayer)) {
                                             isWin = true;
                                             break;
                                         }
-                                    } else {
-                                        break;
                                     }
+
                                 }
-                                board.printBoard();
                                 break;
-                            }
-                        case "MISS":
-                            board.printBoard();
-                            break;
+                            case "RIGHT":
+                                if (currentPlayer.getColLocation() + count > columns - 1) {
+                                    System.out.println("Sorry, You cannot go outside the board!");
+                                    edgeCase = true;
+                                } else {
+
+                                }
+                                break;
+                            case "LEFT":
+                                if (currentPlayer.getColLocation() - count > columns - 1) {
+                                    System.out.println("Sorry, You cannot go outside the board!");
+                                    edgeCase = true;
+                                } else {
+
+                                }
+                                break;
+                            case "MISS":
+                                edgeCase = true;
+                                break;
+                        }
                     }
+                    board.printBoard();
+
                 }
 
             }
@@ -106,7 +122,7 @@ public class Game {
 
     public static boolean checkWinningCondition(Player currentPlayer) {
         if (currentPlayer.getRowLocation() == 0) {
-            System.out.println(currentPlayer.getName()+" won!");
+            System.out.println(currentPlayer.getName() + " won!");
             return true;
         } else {
             return false;
@@ -114,14 +130,14 @@ public class Game {
     }
 
     public static void InitializePlayer(Board board, Player player, int row, int column) {
-        board.setBoardCell(row-1,column-1,new BoardCell(player));
-        player.setLocation(row-1,column-1);
+        board.setBoardCell(row - 1, column - 1, new BoardCell(player));
+        player.setLocation(row - 1, column - 1);
         Game.playerList.add(player);
     }
 
     public static void InitializeObstacle(Board board, Obstacle obstacle, int row, int column) {
-        board.setBoardCell(row-1,column-1,new BoardCell(obstacle));
-        obstacle.setLocation(row-1,column-1);
+        board.setBoardCell(row - 1, column - 1, new BoardCell(obstacle));
+        obstacle.setLocation(row - 1, column - 1);
     }
 
 
