@@ -30,9 +30,9 @@ public class Game {
         Obstacle pillar2 = new Obstacle("Pillar", "P");
 
         InitializePlayer(board, player1, rows, 1);
-        //InitializeObstacle(board, pillar1, 3, 1);
+        InitializeObstacle(board, pillar1, 3, 1);
         InitializePlayer(board, player2, rows, 3);
-        //InitializeObstacle(board, pillar1, 5, 3);
+        InitializeObstacle(board, pillar1, 5, 3);
 
         board.printBoard();
         System.out.println("Starting the Game!");
@@ -68,6 +68,20 @@ public class Game {
                                             isWin = true;
                                             break;
                                         }
+                                    } else if (board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getObstacle().getName() == "Pillar"){
+                                        if (currentPlayer.getColLocation() - 1 < 0) {
+                                            System.out.println("End of Board! Select RIGHT or MISS");
+                                            direction = input.nextLine();
+                                            break;
+                                        } else if (currentPlayer.getColLocation() + 1 > columns - 1) {
+                                            System.out.println("End of Board! Select LEFT or MISS");
+                                            direction = input.nextLine();
+                                            break;
+                                        } else {
+                                            System.out.println("Obstacle! Select LEFT or RIGHT or MISS");
+                                            direction = input.nextLine();
+                                            break;
+                                        }
                                     }
                                 }
                                 break;
@@ -86,24 +100,59 @@ public class Game {
                                             isWin = true;
                                             break;
                                         }
+                                    } else if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle().getName() == "Pillar"){
+
+                                            System.out.println("Obstacle! Select LEFT or RIGHT or MISS");
+                                            direction = input.nextLine();
+                                            break;
+
                                     }
 
                                 }
                                 break;
                             case "RIGHT":
-                                if (currentPlayer.getColLocation() + count > columns - 1) {
-                                    System.out.println("Sorry, You cannot go outside the board!");
-                                    edgeCase = true;
+                                if (currentPlayer.getColLocation() + checkCount > columns - 1) {
+                                    System.out.println("End of Board! Select FORWARD or BACKWARD or MISS");
+                                    direction = input.nextLine();
+                                    break;
                                 } else {
+                                    if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation()+1) == null) {
+                                        board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
+                                        currentPlayer.setColLocation(currentPlayer.getColLocation() + 1);
+                                        board.setBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), new BoardCell(currentPlayer));
+                                        checkCount--;
+                                        if (checkWinningCondition(currentPlayer)) {
+                                            isWin = true;
+                                            break;
+                                        }
+                                    } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation()+1).getObstacle().getName() == "Pillar"){
+                                        System.out.println("Obstacle! Select FORWARD or BACKWARD or MISS");
+                                        direction = input.nextLine();
+                                        break;
+                                    }
 
                                 }
                                 break;
                             case "LEFT":
-                                if (currentPlayer.getColLocation() - count > columns - 1) {
-                                    System.out.println("Sorry, You cannot go outside the board!");
-                                    edgeCase = true;
+                                if (currentPlayer.getColLocation() - checkCount < 0) {
+                                    System.out.println("End of Board! Select FORWARD or BACKWARD");
+                                    direction = input.nextLine();
+                                    break;
                                 } else {
-
+                                    if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1) == null) {
+                                        board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
+                                        currentPlayer.setColLocation(currentPlayer.getColLocation() - 1);
+                                        board.setBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), new BoardCell(currentPlayer));
+                                        checkCount--;
+                                        if (checkWinningCondition(currentPlayer)) {
+                                            isWin = true;
+                                            break;
+                                        }
+                                    } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle().getName() == "Pillar"){
+                                        System.out.println("Obstacle! Select FORWARD or BACKWARD");
+                                        direction = input.nextLine();
+                                        break;
+                                    }
                                 }
                                 break;
                             case "MISS":
