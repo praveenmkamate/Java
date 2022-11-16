@@ -12,8 +12,16 @@ public class BoardCell {
         this.obstacle = obstacle;
     }
 
+    public BoardCell(Player player, Obstacle obstacle) {
+        this.player = player;
+        this.obstacle = obstacle;
+    }
+
     public Obstacle getObstacle() {
-        return obstacle;
+        if (this.obstacle == null)
+            return null;
+        else
+            return obstacle;
     }
 
     public void setObstacle(Obstacle obstacle) {
@@ -21,7 +29,10 @@ public class BoardCell {
     }
 
     public Player getPlayer() {
-        return player;
+        if (this.player == null)
+            return null;
+        else
+            return player;
     }
 
     public void setPlayer(Player player) {

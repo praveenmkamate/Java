@@ -9,10 +9,10 @@ public class Test {
 
         Obstacle pit = new Obstacle("X");
 
-        board.setBoardCell(0,2,new BoardCell(nithin));
-        board.setBoardCell(2,1,new BoardCell(bharath));
+        board.setPlayerOnBoard(0,2,nithin);
+        board.setPlayerOnBoard(2,1,bharath);
 
-        board.setBoardCell(1,3,new BoardCell(pit));
+        //board.setBoardCell(1,3,new BoardCell(pit));
 
         board.printBoard();
     }

@@ -10,7 +10,8 @@ public class Obstacle {
     ObstacleType type;
 
     public enum ObstacleType {
-        PILLAR
+        PILLAR,
+        ICE
     }
 
     public Obstacle(String name, String initial, ObstacleType type) {

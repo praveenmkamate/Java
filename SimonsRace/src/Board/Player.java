@@ -10,6 +10,8 @@ public class Player {
     private int rowLocation;
     private int colLocation;
 
+    private boolean missNextTurn = false;
+
     public Player(String name, String color, String initial) {
         this.name = name;
         this.color = color;
@@ -19,6 +21,14 @@ public class Player {
     public Player(String name, String initial) {
         this.name = name;
         this.initial = initial;
+    }
+
+    public boolean isMissNextTurn() {
+        return missNextTurn;
+    }
+
+    public void setMissNextTurn(boolean missNextTurn) {
+        this.missNextTurn = missNextTurn;
     }
 
     public int getRowLocation() {

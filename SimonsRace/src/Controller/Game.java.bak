@@ -30,7 +30,6 @@ public class Game {
 
         board = new Board(rows, columns);
 
-
         // Creating Player objects
         Player player1 = new Player("Bharath", "B");
         Player player2 = new Player("Nithin", "N");
@@ -84,7 +83,7 @@ public class Game {
                     // Check for the edge cases
                     while (checkCount > 0 && edgeCase == false) {
                         if (currentPlayer.isMissNextTurn()) {
-                            System.out.println("ICE Effect! Missed Turn.");
+                            System.out.println("Missed Turn");
                             currentPlayer.setMissNextTurn(false);
                             break;
                         }
@@ -100,7 +99,7 @@ public class Game {
                                     if (board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()) == null) {
                                         board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
                                         currentPlayer.setRowLocation(currentPlayer.getRowLocation() - 1);
-                                        board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
+                                        board.setPlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
                                         checkCount--;
 
                                         // Check if the player won
@@ -121,7 +120,7 @@ public class Game {
                                             board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
                                             //board.setBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(),new BoardCell(ice));
                                             currentPlayer.setRowLocation(currentPlayer.getRowLocation() - 1);
-                                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
+                                            board.setPlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
                                             checkCount--;
 
                                             if (checkCount == 0) {
@@ -144,7 +143,7 @@ public class Game {
                                     if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()) == null) {
                                         board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
                                         currentPlayer.setRowLocation(currentPlayer.getRowLocation() + 1);
-                                        board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
+                                        board.setPlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
                                         checkCount--;
 
                                         // Check if the player won
@@ -166,7 +165,7 @@ public class Game {
                                         } else if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle().getType() == ObstacleType.ICE) {
                                             board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
                                             currentPlayer.setRowLocation(currentPlayer.getRowLocation() + 1);
-                                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
+                                            board.setPlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
                                             checkCount--;
 
                                             if (checkCount == 0) {
@@ -190,7 +189,7 @@ public class Game {
                                     if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1) == null) {
                                         board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
                                         currentPlayer.setColLocation(currentPlayer.getColLocation() + 1);
-                                        board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
+                                        board.setPlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
                                         checkCount--;
 
                                         // Check if the player won
@@ -211,7 +210,7 @@ public class Game {
                                         } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getObstacle().getType() == ObstacleType.ICE) {
                                             board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
                                             currentPlayer.setColLocation(currentPlayer.getColLocation() + 1);
-                                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
+                                            board.setPlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
                                             checkCount--;
 
                                             if (checkCount == 0) {
@@ -234,7 +233,7 @@ public class Game {
                                     if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1) == null) {
                                         board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
                                         currentPlayer.setColLocation(currentPlayer.getColLocation() - 1);
-                                        board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
+                                        board.setPlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
                                         checkCount--;
 
                                         // Check if the player won
@@ -256,7 +255,7 @@ public class Game {
                                         } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle().getType() == ObstacleType.ICE) {
                                             board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
                                             currentPlayer.setColLocation(currentPlayer.getColLocation() - 1);
-                                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
+                                            board.setPlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
                                             checkCount--;
 
                                             if (checkCount == 0) {
