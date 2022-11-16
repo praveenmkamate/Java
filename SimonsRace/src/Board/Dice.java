@@ -5,9 +5,19 @@ public class Dice {
     private int maxValue;
     private int minValue;
     private int count;
-    private String direction;
+    private Directions direction;
 
-    private String[] directions = {"FORWARD","FORWARD","BACKWARD","MISS"};
+    public enum Directions {
+        FORWARD,
+        BACKWARD,
+        RIGHT,
+        LEFT,
+        MISS
+    }
+
+    //private String[] direct = {"FORWARD","FORWARD","BACKWARD","MISS"};
+
+    private Directions[] directions = new Directions[] {Directions.FORWARD,Directions.FORWARD,Directions.BACKWARD,Directions.MISS};
 
     public Dice() {
         maxValue = 4;
@@ -23,7 +33,7 @@ public class Dice {
         return count;
     }
 
-    public String getDirection() {
+    public Directions getDirection() {
         return direction;
     }
 
@@ -36,7 +46,7 @@ public class Dice {
         return count;
     }
 
-    public String generateDirection(){
+    public Directions generateDirection(){
         direction = directions[generateRandomNumber()-1];
         return direction;
     }

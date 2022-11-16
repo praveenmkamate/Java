@@ -7,9 +7,24 @@ public class Obstacle {
 
     String initial;
 
-    public Obstacle(String name, String initial) {
+    ObstacleType type;
+
+    public enum ObstacleType {
+        PILLAR
+    }
+
+    public Obstacle(String name, String initial, ObstacleType type) {
         this.name = name;
         this.initial = initial;
+        this.type = type;
+    }
+
+    public ObstacleType getType() {
+        return type;
+    }
+
+    public void setType(ObstacleType type) {
+        this.type = type;
     }
 
     public Obstacle(String name) {
