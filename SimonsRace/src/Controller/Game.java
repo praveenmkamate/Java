@@ -3,9 +3,11 @@ package Controller;
 import Board.*;
 import Board.Dice.*;
 import Board.Obstacle.*;
-import Board.Player.*;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.*;
 
 import static Board.Dice.Directions.*;
@@ -18,8 +20,9 @@ public class Game {
     public static boolean isWin = false;
 
     static List<Player> playerList = new ArrayList<>();
-    static Map<String, Integer> score = new HashMap<>();
+    static Map<Player, Score> scoreList = new HashMap<>();
 
+    static Map<Player, Integer> startCell = new HashMap<Player, Integer>();
     static Board board;
 
     public static void main(String args[]) {
@@ -34,29 +37,39 @@ public class Game {
         // Creating Player objects
         Player player1 = new Player("Bharath", "B");
         Player player2 = new Player("Nithin", "N");
-        Player player3 = new Player("PillarPlayer", "PP");
+
 
 //        score.put(player1.getName(),100);
 //        score.put(player2.getName(),5);
 //
 //        UpdateScoreboardToFile();
 
-        // Creating Pillar obstacle objects
-        //Obstacle pillar = new Obstacle("Pillar", "P", ObstacleType.PILLAR);
+        // Creating Obstacle objects
+        Obstacle pillar = new Obstacle("Pillar", "P", ObstacleType.PILLAR);
         Obstacle ice = new Obstacle("ICE", "I", ObstacleType.ICE);
+        Obstacle fire = new Obstacle("FIRE", "F", ObstacleType.FIRE);
 
         // Initialize the Obstacles
+
+        /*for (int col = 1; col <= 9; col++) {
+            InitializeObstacle(board, ice, 3, col);
+            col++;
+        }*/
         for (int row = 3; row <= 6; row++) {
             for (int col = 1; col <= 9; col++) {
-                InitializeObstacle(board, ice, row, col);
+                InitializeObstacle(board, fire, row, col);
             }
         }
 
+
         // Initialize the Players
         InitializePlayer(board, player1, rows, 2);
+        startCell.put(player1, 2);
         InitializePlayer(board, player2, rows, 3);
+        startCell.put(player2, 3);
 
-        playerList.remove(player3);
+        scoreList = InitializeScore(playerList);
+
         board.printBoard();
         System.out.println("Starting the Game!");
 
@@ -70,6 +83,9 @@ public class Game {
                 } else {
                     Player currentPlayer = playerList.get(i);
                     System.out.println("Turn: " + currentPlayer.getName());
+
+//                    scoreList.get(currentPlayer).addScore(10);
+//                    scoreList.get(currentPlayer).removeScore(5);
 
                     // Generate the Dice values
                     int count = dice.generateCount();
@@ -128,6 +144,14 @@ public class Game {
                                                 currentPlayer.setMissNextTurn(true);
                                             }
                                             break;
+                                        } else if (checkCount == 1 && (board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getObstacle().getType() == ObstacleType.FIRE)) {
+
+                                            board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
+                                            currentPlayer.setLocation(rows-1, startCell.get(currentPlayer));
+                                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
+                                            checkCount--;
+                                            break;
+
                                         }
 
                                     }
@@ -174,6 +198,12 @@ public class Game {
                                             }
                                             break;
 
+                                        } else if (checkCount == 1 && board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle().getType() == ObstacleType.FIRE) {
+                                            board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
+                                            currentPlayer.setLocation(rows-1,startCell.get(currentPlayer));
+                                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
+                                            checkCount--;
+                                            break;
                                         }
                                     }
 
@@ -217,6 +247,12 @@ public class Game {
                                             if (checkCount == 0) {
                                                 currentPlayer.setMissNextTurn(true);
                                             }
+                                            break;
+                                        } else if (checkCount == 1 && board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getObstacle().getType() == ObstacleType.FIRE) {
+                                            board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
+                                            currentPlayer.setLocation(rows-1,startCell.get(currentPlayer));
+                                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
+                                            checkCount--;
                                             break;
                                         }
 
@@ -262,6 +298,12 @@ public class Game {
                                             if (checkCount == 0) {
                                                 currentPlayer.setMissNextTurn(true);
                                             }
+                                            break;
+                                        } else if ( checkCount == 1 && board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle().getType() == ObstacleType.FIRE) {
+                                            board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
+                                            currentPlayer.setLocation(rows-1,startCell.get(currentPlayer));
+                                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
+                                            checkCount--;
                                             break;
                                         }
                                     }
@@ -358,8 +400,27 @@ public class Game {
         obstacle.setLocation(row - 1, column - 1);
     }
 
-    public static void UpdateScoreboardToFile() {
-        File file = new File("ScoreBoard.txt");
+    public static Map<Player, Score> InitializeScore(List<Player> playerList) {
+        Map<Player, Score> scoreList = new HashMap<>();
+        for (int i = 0; i < playerList.size(); i++) {
+            Score score = new Score();
+            scoreList.put(playerList.get(i), score);
+        }
+        return scoreList;
+    }
+
+    public static void UpdateScoreboardToFile(Map<Player, Score> scoreList) {
+
+
+//        try {
+//            ObjectOutputStream objectStream = new ObjectOutputStream(new FileOutputStream(new
+//                    File("cashRegister.obj")));
+//            objectStream.writeObject(rs);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+
+        /*File file = new File("ScoreBoard.txt");
 
         if (!file.exists()) {
             try {
@@ -380,7 +441,7 @@ public class Game {
             throw new RuntimeException(e);
         }
 
-        System.out.println("Scoreboard updated!");
+        System.out.println("Scoreboard updated!");*/
 
 
     }

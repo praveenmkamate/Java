@@ -11,7 +11,8 @@ public class Obstacle {
 
     public enum ObstacleType {
         PILLAR,
-        ICE
+        ICE,
+        FIRE
     }
 
     public Obstacle(String name, String initial, ObstacleType type) {
