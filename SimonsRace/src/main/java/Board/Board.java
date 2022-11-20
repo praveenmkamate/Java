@@ -66,8 +66,12 @@ public class Board {
     }
 
     public Board() {
-        this.length = 3;
-        this.breadth = 4;
+    }
+
+    public Board(int length) {
+
+        this.length = length;
+        this.breadth = length;
 
         board = new BoardCell[length][breadth];
     }

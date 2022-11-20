@@ -4,7 +4,6 @@ public class Player {
 
     private String name;
     private String color;
-
     private String initial;
 
     private int rowLocation;
