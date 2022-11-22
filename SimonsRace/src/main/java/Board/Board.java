@@ -1,5 +1,7 @@
 package Board;
 
+import view.BoardController;
+import Board.Obstacle.*;
 public class Board {
 
     private int length;
@@ -16,29 +18,58 @@ public class Board {
     }
 
 
-    public void movePlayerOnBoard(int length, int breadth, Player player) {
+    public void movePlayerOnBoard(int length, int breadth, Player player, BoardController boardController) {
         try {
             if (!(board[length][breadth] == null) && (board[length][breadth].getObstacle() != null)) {
                 board[length][breadth] = new BoardCell(player, board[length][breadth].getObstacle());
+                boardController.setObject(length,breadth,getObstaclePath(board[length][breadth].getObstacle()));
             } else {
                 board[length][breadth] = new BoardCell(player);
+                boardController.setObject(length,breadth,getPlayerPath(player));
             }
         } catch (Exception e) {
             System.out.println("Exception in movePlayerOnBoard:" + e);
         }
     }
 
-    public void clearBoardCell(int length, int breadth) {
+    public void clearBoardCell(int length, int breadth, BoardController boardController) {
         try {
             if (!(board[length][breadth] == null)) {
                 if (board[length][breadth].getObstacle() != null) {
+                    boardController.removeObject(length,breadth);
                     board[length][breadth] = new BoardCell(board[length][breadth].getObstacle());
+                    boardController.setObject(length,breadth,getObstaclePath(board[length][breadth].getObstacle()));
+
                 } else {
                     board[length][breadth] = null;
+                    boardController.removeObject(length,breadth);
                 }
             }
         } catch (Exception e) {
             System.out.println("Exception on clearBoardCell:" + e);
+        }
+    }
+
+    public String getObstaclePath(Obstacle obstacle){
+        if(obstacle.getType() == ObstacleType.FIRE){
+            return "/Images/fire.png";
+        } else if(obstacle.getType() == ObstacleType.PILLAR){
+            return "/Images/pillar.png";
+        } else if(obstacle.getType() == ObstacleType.ICE){
+            return "/Images/ice.png";
+        } else {
+            throw new RuntimeException("Obstacle not found!");
+        }
+    }
+
+    public String getPlayerPath(Player player){
+        //Change
+        if(player.getName() == "RockyBhai"){
+            return "/Images/redPawn.png";
+        } else if(player.getName() == "MunnaBhai"){
+            return "/Images/grnPawn.png";
+        } else {
+            throw new RuntimeException("Obstacle not found!");
         }
     }
 

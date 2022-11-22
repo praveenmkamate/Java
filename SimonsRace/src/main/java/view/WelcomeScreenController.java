@@ -40,7 +40,7 @@ public class WelcomeScreenController extends Application {
 
         //GridController gridController = fxmlLoader.getController();
 
-        Scene scene = new Scene(gridScreen,700, 700);
+        Scene scene = new Scene(gridScreen);
 
         Stage stage = (Stage) btnStart.getScene().getWindow();
         stage.setTitle("Grid Size");

@@ -51,7 +51,7 @@ public class GridController {
             PlayerController playerController = fxmlLoader.getController();
             playerController.receiveData(gridSize,noPlayers);
 
-            Scene scene = new Scene(playerScreen,700, 700);
+            Scene scene = new Scene(playerScreen);
 
             Stage stage = (Stage) btnNext.getScene().getWindow();
             stage.setTitle("Player Information");

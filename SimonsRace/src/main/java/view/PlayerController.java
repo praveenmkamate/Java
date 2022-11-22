@@ -15,6 +15,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class PlayerController {
     }
 
     @FXML
-    protected void onClickStartGame() throws IOException {
+    protected void onClickStartGame() throws IOException, NoSuchMethodException, URISyntaxException {
         ObservableList<Node> children = vBoxID.getChildren();
         for (Node node : children) {
             if (node instanceof TextField) {
@@ -68,12 +69,14 @@ public class PlayerController {
         BoardController boardController = fxmlLoader.getController();
         boardController.initializeBoard(gridSize,noOfPlayers,playerNames);
 
-        Scene scene = new Scene(boardScreen,700, 1000);
+        Scene scene = new Scene(boardScreen);
 
         Stage stage = (Stage) btnStartGame.getScene().getWindow();
         stage.setTitle("Pk's Game");
         stage.setUserData(gridSize);
         stage.setScene(scene);
+        stage.setX(200);
+        stage.setY(50);
         stage.show();
     }
 
