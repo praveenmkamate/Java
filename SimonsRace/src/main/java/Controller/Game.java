@@ -35,26 +35,26 @@ public class Game {
         boardController.setObject(player2.getRowLocation(), player2.getColLocation(), "/Images/grnPawn.png");
 
 
-        Obstacle fire1 = new Obstacle("FIRE", "F", ObstacleType.FIRE);
-        Obstacle fire2 = new Obstacle("FIRE", "F", ObstacleType.FIRE);
-        //Obstacle fire3 = new Obstacle("FIRE", "F", ObstacleType.FIRE);
+        Obstacle danger1 = new Obstacle("DANGER", "F", ObstacleType.DANGER);
+        Obstacle danger2 = new Obstacle("DANGER", "F", ObstacleType.DANGER);
+        //Obstacle danger3 = new Obstacle("danger", "F", ObstacleType.FIRE);
 
-        InitializeObstacle(board, fire1, 3, 4);
-        InitializeObstacle(board, fire2, 2, 3);
-        //InitializeObstacle(board, fire3, 5, 2);
+        InitializeObstacle(board, danger1, 3, 4);
+        InitializeObstacle(board, danger2, 2, 3);
+        //InitializeObstacle(board, danger3, 5, 2);
 
-        boardController.setObject(fire1.getRowLocation(), fire1.getColLocation(), "/Images/fire.png");
-        boardController.setObject(fire2.getRowLocation(), fire2.getColLocation(), "/Images/fire.png");
-        //boardController.setObject(fire3.getRowLocation(), fire3.getColLocation(), "/Images/fire.png");
+        boardController.setObject(danger1.getRowLocation(), danger1.getColLocation(), "/Images/danger.png");
+        boardController.setObject(danger2.getRowLocation(), danger2.getColLocation(), "/Images/danger.png");
+        //boardController.setObject(fire3.getRowLocation(), fire3.getColLocation(), "/Images/danger.png");
 
         Obstacle pillar1 = new Obstacle("Pillar", "P", ObstacleType.PILLAR);
         Obstacle pillar2 = new Obstacle("Pillar", "P", ObstacleType.PILLAR);
         Obstacle pillar3 = new Obstacle("Pillar", "P", ObstacleType.PILLAR);
         Obstacle pillar4 = new Obstacle("Pillar", "P", ObstacleType.PILLAR);
 
-        InitializeObstacle(board, pillar1, 4, 4);
+        InitializeObstacle(board, pillar1, 2, 4);
         InitializeObstacle(board, pillar2, 3, 3);
-        InitializeObstacle(board, pillar3, 4, 2);
+        InitializeObstacle(board, pillar3, 2, 2);
         InitializeObstacle(board, pillar4, 2, 5);
 
         boardController.setObject(pillar1.getRowLocation(), pillar1.getColLocation(), "/Images/pillar.png");
@@ -84,21 +84,17 @@ public class Game {
 
         checkCount = count;
         edgeCase = false;
-        String getDirection;
 
         while (checkCount > 0 && edgeCase == false) {
 
             if (currentPlayer.isMissNextTurn()) {
-                System.out.println("ICE Effect! Missed Turn.");
+                boardController.setDisplayInformation("ICE Effect! Missed Turn.");
                 currentPlayer.setMissNextTurn(false);
                 break;
             }
 
             switch (direction) {
                 case FORWARD:
-                    // Edge Case: In last turn, if the player doesn't get correct number
-
-                    // Check if the next is null before moving
                     if (board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()) == null) {
                         board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
                         currentPlayer.setRowLocation(currentPlayer.getRowLocation() - 1);
@@ -128,9 +124,10 @@ public class Game {
 
                             if (checkCount == 0) {
                                 currentPlayer.setMissNextTurn(true);
+                                boardController.setDisplayInformation("You stepped on the ice! You will miss the next turn.");
                             }
                             break;
-                        } else if ((board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getObstacle().getType() == ObstacleType.FIRE)) {
+                        } else if ((board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getObstacle().getType() == ObstacleType.DANGER)) {
                             board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
                             //board.setBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(),new BoardCell(ice));
                             currentPlayer.setRowLocation(currentPlayer.getRowLocation() - 1);
@@ -138,7 +135,8 @@ public class Game {
                             checkCount--;
 
                             if (checkCount == 0) {
-                                Fire(currentPlayer, boardController);
+                                Danger(currentPlayer, boardController);
+                                boardController.setDisplayInformation("You stepped on the Danger Trap! Start Again");
                             }
                             break;
 
@@ -185,16 +183,18 @@ public class Game {
 
                                 if (checkCount == 0) {
                                     currentPlayer.setMissNextTurn(true);
+                                    boardController.setDisplayInformation("You stepped on the ice! You will miss the next turn.");
                                 }
                                 break;
 
-                            } else if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle().getType() == ObstacleType.FIRE) {
+                            } else if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle().getType() == ObstacleType.DANGER) {
                                 board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
                                 currentPlayer.setRowLocation(currentPlayer.getRowLocation() + 1);
                                 board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);
                                 checkCount--;
                                 if (checkCount == 0) {
-                                    Fire(currentPlayer, boardController);
+                                    Danger(currentPlayer, boardController);
+                                    boardController.setDisplayInformation("You stepped on the Danger Trap! Start Again");
                                 }
                                 break;
                             }
@@ -204,9 +204,7 @@ public class Game {
                 case RIGHT:
                     // Edge Case: Check if the player is on right edge of the board
                     if (currentPlayer.getColLocation() + 1 > gridSize - 1) {
-                        System.out.println("End of Board! Select FORWARD or BACKWARD or MISS");
-                        getDirection = input.nextLine();
-                        direction = getDirectionValue(getDirection);
+                        direction = boardController.getDirection(currentPlayer, board, direction);
                         break;
                     } else {
                         // Check if the next cell is null before moving
@@ -239,16 +237,18 @@ public class Game {
 
                                 if (checkCount == 0) {
                                     currentPlayer.setMissNextTurn(true);
+                                    boardController.setDisplayInformation("You stepped on the ice! You will miss the next turn.");
                                 }
                                 break;
-                            } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getObstacle().getType() == ObstacleType.FIRE) {
+                            } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getObstacle().getType() == ObstacleType.DANGER) {
                                 board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
                                 currentPlayer.setColLocation(currentPlayer.getColLocation() + 1);
                                 board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);
                                 checkCount--;
 
                                 if (checkCount == 0) {
-                                    Fire(currentPlayer, boardController);
+                                    Danger(currentPlayer, boardController);
+                                    boardController.setDisplayInformation("You stepped on the Danger Trap! Start Again");
                                 }
                                 break;
                             }
@@ -258,9 +258,7 @@ public class Game {
                     }
                 case LEFT:
                     if (currentPlayer.getColLocation() - 1 < 0) {
-                        System.out.println("End of Board! Select FORWARD or BACKWARD");
-                        getDirection = input.nextLine();
-                        direction = getDirectionValue(getDirection);
+                        direction = boardController.getDirection(currentPlayer, board, direction);
                         break;
                     } else {
                         // Check if the next cell is null before moving
@@ -294,16 +292,18 @@ public class Game {
 
                                 if (checkCount == 0) {
                                     currentPlayer.setMissNextTurn(true);
+                                    boardController.setDisplayInformation("You stepped on the ice! You will miss the next turn.");
                                 }
                                 break;
-                            } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle().getType() == ObstacleType.FIRE) {
+                            } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle().getType() == ObstacleType.DANGER) {
                                 board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
                                 currentPlayer.setColLocation(currentPlayer.getColLocation() - 1);
                                 board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);
                                 checkCount--;
 
                                 if (checkCount == 0) {
-                                    Fire(currentPlayer, boardController);
+                                    Danger(currentPlayer, boardController);
+                                    boardController.setDisplayInformation("You stepped on the Danger Trap! Start Again");
                                 }
 
                                 break;
@@ -319,7 +319,7 @@ public class Game {
         return false;*/
     }
 
-    private static void Fire(Player currentPlayer, BoardController boardController) {
+    private static void Danger(Player currentPlayer, BoardController boardController) {
         board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
         currentPlayer.setLocation(gridSize - 1, startCell.get(currentPlayer) - 1);
         board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);

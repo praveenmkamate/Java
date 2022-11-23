@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -57,6 +58,11 @@ public class BoardController {
     @FXML
     Button missButton;
 
+    @FXML
+    Text playerTurn;
+
+    @FXML
+    TextArea displayInformation;
     public static List<Player> playerList = new ArrayList<>();
 
     Directions returnDirection = null;
@@ -96,6 +102,9 @@ public class BoardController {
 
         disableDirectionButtons();
 
+        playerTurn.setText(playerList.get(0).getName());
+
+        setDisplayInformation("Let's Start the Game. Please roll the dice.");
     }
 
     static int playerCount = 0;
@@ -103,9 +112,12 @@ public class BoardController {
 
         Dice dice = new Dice();
         Player currentPlayer;
+        Player nextPlayer;
 
         int count;
         Directions directions;
+
+
         if(playerCount >= playerList.size())
             playerCount = 0;
 
@@ -119,6 +131,12 @@ public class BoardController {
         setDiceDisplay("Count: "+count+" Direction: "+directions.toString());
         makeAMove(count, directions, this,currentPlayer);
 
+        if(playerCount >= playerList.size())
+            playerCount = 0;
+
+        nextPlayer = playerList.get(playerCount);
+
+        playerTurn.setText(nextPlayer.getName());
 
     }
 
@@ -150,6 +168,7 @@ public class BoardController {
 
     public Directions getDirection(Player player, Board board, Directions direction){
 
+        rollDice.setDisable(true);
         enableDirectionButtons();
         returnDirection = direction;
         switch (direction) {
@@ -180,6 +199,7 @@ public class BoardController {
         }
         returnDirection = (Directions) Platform.enterNestedEventLoop(returnDirection);
         disableDirectionButtons();
+        rollDice.setDisable(false);
         return returnDirection;
     }
 
@@ -260,6 +280,10 @@ public class BoardController {
     public void setDiceDisplay(String s){
         diceDisplay.setText(s);
         diceDisplay.setTextAlignment(TextAlignment.CENTER);
+    }
+
+    public void setDisplayInformation(String s){
+        displayInformation.setText(s);
     }
 
 }

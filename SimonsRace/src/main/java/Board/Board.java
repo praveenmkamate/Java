@@ -51,8 +51,8 @@ public class Board {
     }
 
     public String getObstaclePath(Obstacle obstacle){
-        if(obstacle.getType() == ObstacleType.FIRE){
-            return "/Images/fire.png";
+        if(obstacle.getType() == ObstacleType.DANGER){
+            return "/Images/danger.png";
         } else if(obstacle.getType() == ObstacleType.PILLAR){
             return "/Images/pillar.png";
         } else if(obstacle.getType() == ObstacleType.ICE){
