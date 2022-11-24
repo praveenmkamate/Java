@@ -43,8 +43,12 @@ public class GridController {
             alert.setHeaderText("Error:");
             alert.setContentText("Number of Players cannot be greater than Grid Size!");
             alert.show();
+        } else if(noPlayers < 2){
+            alert.setAlertType(Alert.AlertType.ERROR);
+            alert.setHeaderText("Error:");
+            alert.setContentText("Number of Players cannot be lesser than 2!");
+            alert.show();
         } else{
-
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("playerScreen.fxml"));
             Parent playerScreen = fxmlLoader.load();
 

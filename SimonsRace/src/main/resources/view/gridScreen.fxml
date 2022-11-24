@@ -10,7 +10,7 @@
    <children>
       <AnchorPane layoutY="-2.0" prefHeight="700.0" prefWidth="700.0">
          <children>
-            <Text layoutX="207.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the Grid Size in the  Range: 4 to 10" wrappingWidth="260.30975341796875">
+            <Text layoutX="273.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the Board Size " wrappingWidth="137.1097412109375">
                <font>
                   <Font size="14.0" />
                </font>

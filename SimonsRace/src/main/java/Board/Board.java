@@ -22,7 +22,11 @@ public class Board {
         try {
             if (!(board[length][breadth] == null) && (board[length][breadth].getObstacle() != null)) {
                 board[length][breadth] = new BoardCell(player, board[length][breadth].getObstacle());
-                boardController.setObject(length,breadth,getObstaclePath(board[length][breadth].getObstacle()));
+                if(board[length][breadth].getObstacle().getType() == ObstacleType.ICE){
+                    boardController.setObject(length,breadth,"/Images/playerIce.png");
+                } else {
+                    boardController.setObject(length,breadth,getObstaclePath(board[length][breadth].getObstacle()));
+                }
             } else {
                 board[length][breadth] = new BoardCell(player);
                 boardController.setObject(length,breadth,getPlayerPath(player));

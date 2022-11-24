@@ -5,8 +5,13 @@ import Board.Dice;
 import Board.Dice.*;
 import Board.Player;
 import Controller.Game;
+import javafx.animation.PauseTransition;
+import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
@@ -15,12 +20,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static Controller.Game.isWin;
+import static Controller.Game.checkWinningCondition;
 import static Controller.Game.makeAMove;
 
 public class BoardController {
@@ -67,6 +75,8 @@ public class BoardController {
 
     Directions returnDirection = null;
     int gridSize;
+
+    public static boolean isWin = false;
     public void initializeBoard(int gSize, int noOfPlayers, List<String> playerNames) throws NoSuchMethodException, URISyntaxException {
 
         gridSize = gSize;
@@ -108,13 +118,14 @@ public class BoardController {
     }
 
     static int playerCount = 0;
-    public void rollDice(){
+    public void rollDice() throws IOException, InterruptedException {
 
         Dice dice = new Dice();
         Player currentPlayer;
         Player nextPlayer;
 
         int count;
+        boolean result = false;
         Directions directions;
 
 
@@ -131,6 +142,10 @@ public class BoardController {
         setDiceDisplay("Count: "+count+" Direction: "+directions.toString());
         makeAMove(count, directions, this,currentPlayer);
 
+        if(isWin == true || checkWinningCondition(currentPlayer) == true){
+            //wait here
+            winnerScreen(currentPlayer);
+        }
         if(playerCount >= playerList.size())
             playerCount = 0;
 
@@ -138,6 +153,22 @@ public class BoardController {
 
         playerTurn.setText(nextPlayer.getName());
 
+    }
+
+    public void winnerScreen(Player currentPlayer) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("winScreen.fxml"));
+        Parent winScreen = fxmlLoader.load();
+
+        WinController winController = fxmlLoader.getController();
+        winController.receiveData(currentPlayer);
+
+        Scene scene = new Scene(winScreen);
+
+        Stage stage = (Stage) rollDice.getScene().getWindow();
+        stage.setTitle("Winner Information");
+        stage.setUserData(gridSize);
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void setObject(int row, int col, String path) throws URISyntaxException {

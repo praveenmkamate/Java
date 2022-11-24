@@ -1,5 +1,6 @@
 package view;
 
+import Board.Player;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -79,5 +80,6 @@ public class PlayerController {
         stage.setY(50);
         stage.show();
     }
+
 
 }

@@ -12,7 +12,7 @@ import static Board.Dice.Directions.*;
 
 public class Game {
     public static int gridSize;
-    public static boolean isWin = false;
+
 
     static List<Player> playerList = new ArrayList<>();
 
@@ -35,19 +35,19 @@ public class Game {
         boardController.setObject(player2.getRowLocation(), player2.getColLocation(), "/Images/grnPawn.png");
 
 
-        Obstacle danger1 = new Obstacle("DANGER", "F", ObstacleType.DANGER);
+        //Obstacle danger1 = new Obstacle("DANGER", "F", ObstacleType.DANGER);
         Obstacle danger2 = new Obstacle("DANGER", "F", ObstacleType.DANGER);
         //Obstacle danger3 = new Obstacle("danger", "F", ObstacleType.FIRE);
 
-        InitializeObstacle(board, danger1, 3, 4);
+        //InitializeObstacle(board, danger1, 3, 4);
         InitializeObstacle(board, danger2, 2, 3);
         //InitializeObstacle(board, danger3, 5, 2);
 
-        boardController.setObject(danger1.getRowLocation(), danger1.getColLocation(), "/Images/danger.png");
+        //boardController.setObject(danger1.getRowLocation(), danger1.getColLocation(), "/Images/danger.png");
         boardController.setObject(danger2.getRowLocation(), danger2.getColLocation(), "/Images/danger.png");
         //boardController.setObject(fire3.getRowLocation(), fire3.getColLocation(), "/Images/danger.png");
 
-        Obstacle pillar1 = new Obstacle("Pillar", "P", ObstacleType.PILLAR);
+        /*Obstacle pillar1 = new Obstacle("Pillar", "P", ObstacleType.PILLAR);
         Obstacle pillar2 = new Obstacle("Pillar", "P", ObstacleType.PILLAR);
         Obstacle pillar3 = new Obstacle("Pillar", "P", ObstacleType.PILLAR);
         Obstacle pillar4 = new Obstacle("Pillar", "P", ObstacleType.PILLAR);
@@ -60,16 +60,22 @@ public class Game {
         boardController.setObject(pillar1.getRowLocation(), pillar1.getColLocation(), "/Images/pillar.png");
         boardController.setObject(pillar2.getRowLocation(), pillar2.getColLocation(), "/Images/pillar.png");
         boardController.setObject(pillar3.getRowLocation(), pillar3.getColLocation(), "/Images/pillar.png");
-        boardController.setObject(pillar4.getRowLocation(), pillar4.getColLocation(), "/Images/pillar.png");
+        boardController.setObject(pillar4.getRowLocation(), pillar4.getColLocation(), "/Images/pillar.png");*/
 
         Obstacle ice1 = new Obstacle("ICE", "I", ObstacleType.ICE);
-        //Obstacle ice2 = new Obstacle("ICE", "I", ObstacleType.ICE);
+        Obstacle ice2 = new Obstacle("ICE", "I", ObstacleType.ICE);
+        Obstacle ice3 = new Obstacle("ICE", "I", ObstacleType.ICE);
+        Obstacle ice4 = new Obstacle("ICE", "I", ObstacleType.ICE);
 
         InitializeObstacle(board, ice1, 3, 2);
-        //InitializeObstacle(board, ice2, 4, 4);
+        InitializeObstacle(board, ice2, 3, 4);
+        InitializeObstacle(board, ice3, 2, 2);
+        InitializeObstacle(board, ice4, 2, 4);
 
         boardController.setObject(ice1.getRowLocation(), ice1.getColLocation(), "/Images/ice.png");
-        //boardController.setObject(ice2.getRowLocation(), ice2.getColLocation(), "/Images/ice.png");
+        boardController.setObject(ice2.getRowLocation(), ice2.getColLocation(), "/Images/ice.png");
+        boardController.setObject(ice3.getRowLocation(), ice1.getColLocation(), "/Images/ice.png");
+        boardController.setObject(ice4.getRowLocation(), ice2.getColLocation(), "/Images/ice.png");
 
         //boardController.setDashboardNotifyText("Starting the Game!");
         return playerList;
@@ -78,7 +84,7 @@ public class Game {
 
     public static void makeAMove(int count, Directions direction, BoardController boardController, Player currentPlayer) {
 
-        Scanner input = new Scanner(System.in);
+        boardController.setDisplayInformation(" ");
         int checkCount;
         boolean edgeCase;
 
@@ -103,7 +109,7 @@ public class Game {
 
                         // Check if the player won
                         if (checkWinningCondition(currentPlayer)) {
-                            isWin = true;
+                            boardController.isWin = true;
                             break;
                         }
                         break;
@@ -148,7 +154,7 @@ public class Game {
                 case BACKWARD:
                     // Edge Case: if the players tries to go out of the board
                     if (currentPlayer.getRowLocation() + 1 > gridSize - 1) {
-                        System.out.println("Sorry, You cannot go outside the board!");
+                        boardController.setDisplayInformation("Sorry, You cannot go outside the board!");
                         edgeCase = true;
                         break;
                     } else {
@@ -161,7 +167,7 @@ public class Game {
 
                             // Check if the player won
                             if (checkWinningCondition(currentPlayer)) {
-                                isWin = true;
+                                boardController.isWin = true;
                                 break;
                             }
                             break;
@@ -216,7 +222,7 @@ public class Game {
 
                             // Check if the player won
                             if (checkWinningCondition(currentPlayer)) {
-                                isWin = true;
+                                boardController.isWin = true;
                                 break;
                             }
                             break;
@@ -270,7 +276,7 @@ public class Game {
 
                             // Check if the player won
                             if (checkWinningCondition(currentPlayer)) {
-                                isWin = true;
+                                boardController.isWin = true;
                                 break;
                             }
 
