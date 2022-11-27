@@ -6,12 +6,14 @@ import Board.Dice.*;
 import Board.Player;
 import Controller.Game;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -68,13 +70,19 @@ public class BoardController {
 
     @FXML
     TextArea displayInformation;
+
+    @FXML
+    TextArea scoreArea;
     public static List<Player> playerList = new ArrayList<>();
 
     Directions returnDirection = null;
     int gridSize;
 
     public static boolean isWin = false;
+
+
     public void initializeBoard(int gSize, int noOfPlayers, List<String> playerNames, Map<String, String> playerColor, Map<String, Integer> playerLane) throws NoSuchMethodException, URISyntaxException {
+
 
         gridSize = gSize;
         double gridWidth = splitPane.getPrefWidth() * 0.75;
@@ -135,12 +143,15 @@ public class BoardController {
         count = dice.generateCount();
         directions = dice.generateDirection();
 
+        currentPlayer.setScore(calculateScore(currentPlayer.getScore(),count,directions));
         setPlayerName("Player: "+currentPlayer.getName());
         setDiceDisplay("Count: "+count+" Direction: "+directions.toString());
         makeAMove(count, directions, this,currentPlayer);
 
+        displayScoreArea(playerList);
         if(isWin == true){
             //wait here
+            currentPlayer.setScore(currentPlayer.getScore()+(gridSize*50));
             winnerScreen(currentPlayer);
         }
         if(playerCount >= playerList.size())
@@ -150,6 +161,31 @@ public class BoardController {
 
         playerTurn.setText(nextPlayer.getName());
 
+    }
+
+    private void displayScoreArea(List<Player> playerList) {
+        Player currentPlayer;
+        String score="";
+        for(int i=0;i<playerList.size();i++){
+            currentPlayer = playerList.get(i);
+            score+= currentPlayer.getName() +": "+ currentPlayer.getScore()+"\n";
+        }
+        scoreArea.setText(score);
+    }
+
+    private int calculateScore(int score, int count, Directions directions) {
+        if(directions == Directions.FORWARD){
+            score += (count*2);
+        } else if(directions == Directions.BACKWARD){
+            score -= (count*1);
+        } else if(directions == Directions.LEFT){
+            score += (count*1);
+        } else if (directions == Directions.RIGHT){
+            score += (count*1);
+        } else {
+            score += 0;
+        }
+        return score;
     }
 
     public void winnerScreen(Player currentPlayer) throws IOException {

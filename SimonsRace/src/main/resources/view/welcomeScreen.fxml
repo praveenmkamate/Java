@@ -7,9 +7,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" style="-fx-background: linear-gradient(#0093E9,#80D0C7);" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.WelcomeScreenController">
     <children>
-        <Button fx:id="btnStart" layoutX="263.0" layoutY="350.0" mnemonicParsing="false" onAction="#onBtnClickStartGame" opacity="0.8" prefHeight="70.0" prefWidth="174.0" style="-fx-background-color: e7e7e7;" text="Start Game" textAlignment="CENTER" textFill="#867ca4" wrapText="true">
+        <Button fx:id="btnStart" layoutX="263.0" layoutY="350.0" mnemonicParsing="false" onAction="#onBtnClickStartGame" prefHeight="70.0" prefWidth="174.0" style="-fx-background-color: e7e7e7;" text="Start Game" textAlignment="CENTER" textFill="#5b5555" wrapText="true">
             <font>
-                <Font name="Century Gothic" size="15.0" />
+                <Font name="Century Gothic Bold" size="15.0" />
             </font>
         </Button>
         <Text fx:id="headText" fill="WHITE" layoutX="187.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pk's Race" textAlignment="CENTER" wrappingWidth="325.3367004394531">

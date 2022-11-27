@@ -8,16 +8,20 @@ public class Player {
     private int rowLocation;
     private int colLocation;
 
+    private int score;
+
     private boolean missNextTurn = false;
 
 
     public Player(String name, String color) {
+        this.score = 0;
         this.name = name;
         this.color = color;
     }
 
     public Player(String name) {
         this.name = name;
+        this.score = 0;
     }
 
     public boolean isMissNextTurn() {
@@ -49,6 +53,13 @@ public class Player {
         this.colLocation = colLocation;
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 
     public String getName() {
         return name;

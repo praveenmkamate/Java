@@ -20,6 +20,9 @@ public class WinController {
     Text winText;
 
     @FXML
+    Text scoreText;
+
+    @FXML
     AnchorPane winPane;
 
     @FXML
@@ -31,8 +34,8 @@ public class WinController {
         winText.setText("Congratulations "+currentPlayer.getName()+"! You won!");
         winText.setTextAlignment(TextAlignment.CENTER);
 
-        Image image = new Image(getClass().getResourceAsStream("/Images/winner.gif"));
-        winnerImage.setImage(image);
+        scoreText.setTextAlignment(TextAlignment.CENTER);
+        scoreText.setText("Your Score is "+currentPlayer.getScore());
     }
 
     public void bPlayAgain() throws IOException {
