@@ -4,22 +4,20 @@ public class Player {
 
     private String name;
     private String color;
-    private String initial;
 
     private int rowLocation;
     private int colLocation;
 
     private boolean missNextTurn = false;
 
-    public Player(String name, String color, String initial) {
+
+    public Player(String name, String color) {
         this.name = name;
         this.color = color;
-        this.initial = initial;
     }
 
-    public Player(String name, String initial) {
+    public Player(String name) {
         this.name = name;
-        this.initial = initial;
     }
 
     public boolean isMissNextTurn() {
@@ -51,13 +49,6 @@ public class Player {
         this.colLocation = colLocation;
     }
 
-    public String getInitial() {
-        return initial;
-    }
-
-    public void setInitial(String initial) {
-        this.initial = initial;
-    }
 
     public String getName() {
         return name;

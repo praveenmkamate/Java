@@ -1,5 +1,6 @@
 package Board;
 
+import Controller.Game;
 import view.BoardController;
 import Board.Obstacle.*;
 public class Board {
@@ -28,8 +29,9 @@ public class Board {
                     boardController.setObject(length,breadth,getObstaclePath(board[length][breadth].getObstacle()));
                 }
             } else {
+                Game game = new Game();
                 board[length][breadth] = new BoardCell(player);
-                boardController.setObject(length,breadth,getPlayerPath(player));
+                boardController.setObject(length,breadth,game.getPlayerIconPath(player.getColor()));
             }
         } catch (Exception e) {
             System.out.println("Exception in movePlayerOnBoard:" + e);
@@ -81,7 +83,7 @@ public class Board {
         return board[length][breadth];
     }
 
-    public void printBoard() {
+    /*public void printBoard() {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < breadth; j++) {
                 if (board[i][j] == null) {
@@ -98,7 +100,7 @@ public class Board {
             }
             System.out.println("\n");
         }
-    }
+    }*/
 
     public Board() {
     }

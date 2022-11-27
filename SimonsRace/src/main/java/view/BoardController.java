@@ -5,8 +5,6 @@ import Board.Dice;
 import Board.Dice.*;
 import Board.Player;
 import Controller.Game;
-import javafx.animation.PauseTransition;
-import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,14 +19,13 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import static Controller.Game.checkWinningCondition;
 import static Controller.Game.makeAMove;
 
 public class BoardController {
@@ -77,7 +74,7 @@ public class BoardController {
     int gridSize;
 
     public static boolean isWin = false;
-    public void initializeBoard(int gSize, int noOfPlayers, List<String> playerNames) throws NoSuchMethodException, URISyntaxException {
+    public void initializeBoard(int gSize, int noOfPlayers, List<String> playerNames, Map<String, String> playerColor, Map<String, Integer> playerLane) throws NoSuchMethodException, URISyntaxException {
 
         gridSize = gSize;
         double gridWidth = splitPane.getPrefWidth() * 0.75;
@@ -108,7 +105,7 @@ public class BoardController {
             }
         }
 
-        playerList = Game.InitializeBoard(gridSize, noOfPlayers, playerNames, this);
+        playerList = Game.InitializeBoard(gridSize, noOfPlayers, playerNames, this, playerColor, playerLane);
 
         disableDirectionButtons();
 
@@ -142,7 +139,7 @@ public class BoardController {
         setDiceDisplay("Count: "+count+" Direction: "+directions.toString());
         makeAMove(count, directions, this,currentPlayer);
 
-        if(isWin == true || checkWinningCondition(currentPlayer) == true){
+        if(isWin == true){
             //wait here
             winnerScreen(currentPlayer);
         }
@@ -166,7 +163,8 @@ public class BoardController {
 
         Stage stage = (Stage) rollDice.getScene().getWindow();
         stage.setTitle("Winner Information");
-        stage.setUserData(gridSize);
+        stage.setX(200);
+        stage.setY(50);
         stage.setScene(scene);
         stage.show();
     }

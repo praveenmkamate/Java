@@ -38,6 +38,9 @@ public class WelcomeScreenController extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("gridScreen.fxml"));
         Parent gridScreen = fxmlLoader.load();
 
+        GridController gridController = fxmlLoader.getController();
+        gridController.initializeDropdown();
+
         //GridController gridController = fxmlLoader.getController();
 
         Scene scene = new Scene(gridScreen);
