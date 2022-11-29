@@ -24,17 +24,17 @@
                         <Font size="17.0" />
                      </font>
                   </Button>
-                  <Text fx:id="playerName" fill="#ff2217" layoutX="12.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Player:" wrappingWidth="218.93673706054688" />
+                  <Text fx:id="playerName" fill="#ff2217" layoutX="12.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="218.93673706054688" />
                   <Text fx:id="diceDisplay" layoutX="29.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="218.93673706054693" />
                   <Button fx:id="forwardButton" layoutX="94.0" layoutY="224.0" mnemonicParsing="false" onAction="#onClickForwardButton" prefHeight="26.0" prefWidth="70.0" text="Forward" />
                   <Button fx:id="leftButton" layoutX="40.0" layoutY="258.0" mnemonicParsing="false" onAction="#onClickLeftButton" prefHeight="26.0" prefWidth="70.0" text="Left" />
                   <Button fx:id="rightButton" layoutX="138.0" layoutY="258.0" mnemonicParsing="false" onAction="#onClickRightButton" prefHeight="26.0" prefWidth="70.0" text="Right" />
                   <Button fx:id="backButton" layoutX="95.0" layoutY="296.0" mnemonicParsing="false" onAction="#onClickBackwardButton" prefHeight="26.0" prefWidth="69.0" text="Backward" />
                   <Button fx:id="missButton" layoutX="98.0" layoutY="336.0" mnemonicParsing="false" onAction="#onClickMissButton" prefHeight="26.0" prefWidth="62.0" text="Miss" />
-                  <Text layoutX="59.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Turn:" />
-                  <Text fx:id="playerTurn" layoutX="94.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="112.53671264648438" />
+                  <Text fill="#19b404" layoutX="73.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Player:" />
+                  <Text fx:id="playerTurn" layoutX="156.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="96.720703125" />
                   <TextArea fx:id="displayInformation" editable="false" layoutX="44.0" layoutY="409.0" prefHeight="16.0" prefWidth="178.0" wrapText="true" />
-                  <Text layoutX="85.0" layoutY="395.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Information Board" />
+                  <Text layoutX="85.0" layoutY="395.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Information board" />
                   <Text layoutX="99.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scoreboard" />
                   <TextArea fx:id="scoreArea" layoutX="40.0" layoutY="485.0" prefHeight="200.0" prefWidth="178.0" stylesheets="@../CSS/TextArea.css" />
                </children></AnchorPane>

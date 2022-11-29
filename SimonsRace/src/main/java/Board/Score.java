@@ -1,37 +1,63 @@
-package Board;
+package board;
 
-public class Score implements java.io.Serializable{
-    private int score;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
-    public Score() {
-        this.score = 0;
-    }
-
-    public void addScore(int number){
-        if(number > 0){
-            this.score = this.score + number;
-        } else {
-            System.out.println("Illegal score");
+public class Score {
+    public void writeScore(List<Player> playerList) throws IOException {
+        FileOutputStream fileOutputStream;
+        BufferedReader bufferedReader;
+        try {
+            fileOutputStream = new FileOutputStream("TopScores.txt");
+        } catch (FileNotFoundException e){
+            System.out.println("Score file not found, creating a new file!");
+            fileOutputStream = new FileOutputStream(new File("TopScores.txt"));
         }
+
+        bufferedReader = new BufferedReader(new FileReader("TopScores.txt"));
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+
+        if(bufferedReader.readLine() == null){
+            writeFile(playerList,fileOutputStream,objectOutputStream);
+        } else {
+
+        }
+
     }
 
-    public void removeScore(int number){
-        if(number > 0){
-            if(this.score - number > 0){
-                this.score = this.score - number;
-            } else {
-                this.score = 0;
+    public void updateFile(List<Player> playerList, FileOutputStream fileOutputStream, ObjectOutputStream objectOutputStream){
+
+        List<Player> playersInFile = new ArrayList<>();
+
+        while(objectOutputStream.)
+
+    }
+
+    public void writeFile(List<Player> playerList, FileOutputStream fileOutputStream, ObjectOutputStream objectOutputStream){
+        try {
+            for(int i=0; i<playerList.size();i++){
+                objectOutputStream.writeObject(playerList.get(i));
             }
 
-        } else {
-            System.out.println("Illegal score");
-        }
-    }
-    public int getScore() {
-        return score;
-    }
+            objectOutputStream.close();
+            fileOutputStream.close();
 
-    public void setScore(int score) {
-        this.score = score;
+            /*FileInputStream fi = new FileInputStream(new File("myObjects.txt"));
+            ObjectInputStream oi = new ObjectInputStream(fi);
+
+            // Read objects
+            Person pr1 = (Person) oi.readObject();
+            Person pr2 = (Person) oi.readObject();
+
+            System.out.println(pr1.toString());
+            System.out.println(pr2.toString());
+
+            oi.close();
+            fi.close();
+*/
+        } catch (IOException e) {
+            System.out.println("File not found");
+        }
     }
 }

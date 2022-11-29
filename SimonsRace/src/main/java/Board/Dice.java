@@ -1,4 +1,4 @@
-package Board;
+package board;
 
 public class Dice {
 
@@ -15,8 +15,6 @@ public class Dice {
         MISS
     }
 
-    //private String[] direct = {"FORWARD","FORWARD","BACKWARD","MISS"};
-
     private Directions[] directions = new Directions[] {Directions.FORWARD,Directions.FORWARD,Directions.BACKWARD,Directions.MISS};
 
     public Dice() {
@@ -27,14 +25,6 @@ public class Dice {
     public Dice(int minValue, int maxValue) {
         this.maxValue = maxValue;
         this.minValue = minValue;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public Directions getDirection() {
-        return direction;
     }
 
     private int generateRandomNumber() {
@@ -51,19 +41,4 @@ public class Dice {
         return direction;
     }
 
-    public void setMaxValue(int maxValue) {
-        this.maxValue = maxValue;
-    }
-
-    public void setMinValue(int minValue) {
-        this.minValue = minValue;
-    }
-
-    public int getMaxValue() {
-        return maxValue;
-    }
-
-    public int getMinValue() {
-        return minValue;
-    }
 }

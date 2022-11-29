@@ -1,19 +1,17 @@
 package view;
 
-import Board.*;
-import Board.Dice;
-import Board.Dice.*;
-import Board.Player;
-import Controller.Game;
+import board.*;
+import board.Dice;
+import board.Dice.*;
+import board.Player;
+import controller.Game;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -28,7 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static Controller.Game.makeAMove;
+import static board.Common.ObstacleType.PILLAR;
+import static board.Dice.Directions.FORWARD;
+import static controller.Game.makeAMove;
 
 public class BoardController {
 
@@ -130,9 +130,7 @@ public class BoardController {
         Player nextPlayer;
 
         int count;
-        boolean result = false;
         Directions directions;
-
 
         if(playerCount >= playerList.size())
             playerCount = 0;
@@ -143,15 +141,20 @@ public class BoardController {
         count = dice.generateCount();
         directions = dice.generateDirection();
 
-        currentPlayer.setScore(calculateScore(currentPlayer.getScore(),count,directions));
-        setPlayerName("Player: "+currentPlayer.getName());
+        currentPlayer.addScore(calculateScore(currentPlayer.getScore(),count,directions));
+        setPlayerName("Previous Player: "+currentPlayer.getName());
         setDiceDisplay("Count: "+count+" Direction: "+directions.toString());
-        makeAMove(count, directions, this,currentPlayer);
+        if (currentPlayer.isMissNextTurn()) {
+            setDisplayInformation("ICE Effect! Missed Turn.");
+            currentPlayer.setMissNextTurn(false);
+            currentPlayer.removeScore(10);
+        } else {
+            makeAMove(count, directions, this,currentPlayer);
+        }
 
         displayScoreArea(playerList);
-        if(isWin == true){
-            //wait here
-            currentPlayer.setScore(currentPlayer.getScore()+(gridSize*50));
+        if(currentPlayer.getRowLocation() == 0){
+            currentPlayer.addScore(gridSize*50);
             winnerScreen(currentPlayer);
         }
         if(playerCount >= playerList.size())
@@ -174,7 +177,7 @@ public class BoardController {
     }
 
     private int calculateScore(int score, int count, Directions directions) {
-        if(directions == Directions.FORWARD){
+        if(directions == FORWARD){
             score += (count*2);
         } else if(directions == Directions.BACKWARD){
             score -= (count*1);
@@ -193,7 +196,7 @@ public class BoardController {
         Parent winScreen = fxmlLoader.load();
 
         WinController winController = fxmlLoader.getController();
-        winController.receiveData(currentPlayer);
+        winController.receiveData(currentPlayer,playerList);
 
         Scene scene = new Scene(winScreen);
 
@@ -212,7 +215,7 @@ public class BoardController {
     }
 
     public void onClickForwardButton(){
-        Platform.exitNestedEventLoop(returnDirection,Directions.FORWARD);
+        Platform.exitNestedEventLoop(returnDirection, FORWARD);
     }
 
     public void onClickBackwardButton(){
@@ -262,9 +265,11 @@ public class BoardController {
                 checkBack(board,player);
                 break;
         }
+        setDisplayInformation("Obstacle! Select which direction you want to proceed.");
         returnDirection = (Directions) Platform.enterNestedEventLoop(returnDirection);
         disableDirectionButtons();
         rollDice.setDisable(false);
+        setDisplayInformation(" ");
         return returnDirection;
     }
 
@@ -289,7 +294,7 @@ public class BoardController {
         if (board.getBoardCell(player.getRowLocation() - 1, player.getColLocation()) != null) {
             if (board.getBoardCell(player.getRowLocation() - 1, player.getColLocation()).getPlayer() != null) {
                 forwardButton.setDisable(true);
-            } else if ((board.getBoardCell(player.getRowLocation() - 1, player.getColLocation()).getObstacle().getType() == Obstacle.ObstacleType.PILLAR)) {
+            } else if ((board.getBoardCell(player.getRowLocation() - 1, player.getColLocation()).getObstacleType() == PILLAR)) {
                 forwardButton.setDisable(true);
             }
         }
@@ -302,7 +307,7 @@ public class BoardController {
             if (board.getBoardCell(player.getRowLocation() + 1, player.getColLocation()).getPlayer() != null) {
                 backButton.setDisable(true);
 
-            } else if ((board.getBoardCell(player.getRowLocation() + 1, player.getColLocation()).getObstacle().getType() == Obstacle.ObstacleType.PILLAR)) {
+            } else if ((board.getBoardCell(player.getRowLocation() + 1, player.getColLocation()).getObstacleType() == PILLAR)) {
                 backButton.setDisable(true);
             }
         }
@@ -314,7 +319,7 @@ public class BoardController {
         } else if (board.getBoardCell(player.getRowLocation(), player.getColLocation()-1) != null) {
             if (board.getBoardCell(player.getRowLocation(), player.getColLocation()-1).getPlayer() != null) {
                 leftButton.setDisable(true);
-            } else if ((board.getBoardCell(player.getRowLocation() , player.getColLocation()-1).getObstacle().getType() == Obstacle.ObstacleType.PILLAR)) {
+            } else if ((board.getBoardCell(player.getRowLocation() , player.getColLocation()-1).getObstacleType() == PILLAR)) {
                 leftButton.setDisable(true);
             }
         }
@@ -326,7 +331,7 @@ public class BoardController {
         }else if (board.getBoardCell(player.getRowLocation(), player.getColLocation()+1) != null) {
             if (board.getBoardCell(player.getRowLocation(), player.getColLocation()+1).getPlayer() != null) {
                 rightButton.setDisable(true);
-            } else if ((board.getBoardCell(player.getRowLocation() , player.getColLocation()+1).getObstacle().getType() == Obstacle.ObstacleType.PILLAR)) {
+            } else if ((board.getBoardCell(player.getRowLocation() , player.getColLocation()+1).getObstacleType() == PILLAR)) {
                 rightButton.setDisable(true);
             }
         }

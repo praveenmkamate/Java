@@ -1,6 +1,10 @@
-package Board;
+package board;
 
-public class Player {
+import java.io.Serializable;
+
+import static controller.Game.gridSize;
+
+public class Player implements Serializable {
 
     private String name;
     private String color;
@@ -12,6 +16,11 @@ public class Player {
 
     private boolean missNextTurn = false;
 
+
+    public Player(int rowLocation, int colLocation) {
+        this.rowLocation = rowLocation;
+        this.colLocation = colLocation;
+    }
 
     public Player(String name, String color) {
         this.score = 0;
@@ -37,7 +46,12 @@ public class Player {
     }
 
     public void setRowLocation(int rowLocation) {
-        this.rowLocation = rowLocation;
+        if(rowLocation<0)
+            this.rowLocation = 0;
+        else if(rowLocation >= gridSize - 1)
+            this.rowLocation = gridSize - 1;
+        else
+            this.rowLocation = rowLocation;
     }
 
     public int getColLocation() {
@@ -65,15 +79,27 @@ public class Player {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getColor() {
         return color;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void addScore(int number){
+        if(number > 0){
+            this.score = this.score + number;
+        } else {
+            System.out.println("Illegal score");
+        }
+    }
+
+    public void removeScore(int number){
+        if(number > 0){
+            if(this.score - number > 0){
+                this.score = this.score - number;
+            } else {
+                this.score = 0;
+            }
+        } else {
+            System.out.println("Illegal score");
+        }
     }
 }

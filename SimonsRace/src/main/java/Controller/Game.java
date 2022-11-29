@@ -1,47 +1,45 @@
-package Controller;
+package controller;
 
-import Board.*;
-import Board.Dice.*;
+import board.Board;
+import board.Common.ObstacleType;
+import board.Dice.Directions;
+import board.Player;
+import obstacle.Obstacle;
 import view.BoardController;
-import Board.Obstacle.*;
 
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import static Board.Dice.Directions.*;
+import static board.Common.*;
+import static board.Common.ObstacleType.*;
+import static board.Dice.Directions.*;
 
 public class Game {
     public static int gridSize;
 
+    public static List<Player> playerList = new ArrayList<>();
 
-    static List<Player> playerList = new ArrayList<>();
-
-    static Map<Player, Integer> startCell = new HashMap<Player, Integer>();
-    static Board board;
+    public static Map<Player, Integer> startCell = new HashMap<Player, Integer>();
+    public static Board board;
+    public static int count;
 
     public static List<Player> InitializeBoard(int gSize, int noOfPlayers, List<String> playerNames, BoardController boardController, Map<String, String> playerColor, Map<String, Integer> playerLane) throws URISyntaxException {
 
+        playerList.clear();
         gridSize = gSize;
         board = new Board(gridSize);
 
-        /*Player player1 = new Player("RockyBhai","Blue");
-        Player player2 = new Player("MunnaBhai", "Red");
-
-        InitializePlayer(board, player1, gridSize, 2);
-        startCell.put(player1, 2);
-        InitializePlayer(board, player2, gridSize, 4);
-        startCell.put(player2, 4);
-        boardController.setObject(player1.getRowLocation(), player1.getColLocation(), "/Images/redPawn.png");
-        boardController.setObject(player2.getRowLocation(), player2.getColLocation(), "/Images/grnPawn.png");*/
-
-        for(int i=0; i< playerNames.size(); i++){
-            playerList.add(new Player(playerNames.get(i),playerColor.get(playerNames.get(i))));
+        for (int i = 0; i < playerNames.size(); i++) {
+            playerList.add(new Player(playerNames.get(i), playerColor.get(playerNames.get(i))));
         }
 
-        for (int i=0; i< playerList.size(); i++){
-            InitializePlayer(board,playerList.get(i),gridSize,playerLane.get(playerList.get(i).getName()));
-            startCell.put(playerList.get(i),playerLane.get(playerList.get(i).getName()));
-            boardController.setObject(playerList.get(i).getRowLocation(),playerList.get(i).getColLocation(),getPlayerIconPath(playerColor.get(playerList.get(i).getName())));
+        for (int i = 0; i < playerList.size(); i++) {
+            InitializePlayer(board, playerList.get(i), gridSize, playerLane.get(playerList.get(i).getName()));
+            startCell.put(playerList.get(i), playerLane.get(playerList.get(i).getName()));
+            boardController.setObject(playerList.get(i).getRowLocation(), playerList.get(i).getColLocation(), getPlayerIconPath(playerColor.get(playerList.get(i).getName())));
         }
 
         //Obstacle danger1 = new Obstacle("DANGER", "F", ObstacleType.DANGER);
@@ -71,600 +69,112 @@ public class Game {
         boardController.setObject(pillar3.getRowLocation(), pillar3.getColLocation(), "/Images/pillar.png");
         boardController.setObject(pillar4.getRowLocation(), pillar4.getColLocation(), "/Images/pillar.png");*/
 
-//        Obstacle ice1 = new Obstacle("ICE", "I", ObstacleType.ICE);
-//        Obstacle ice2 = new Obstacle("ICE", "I", ObstacleType.ICE);
-//        Obstacle ice3 = new Obstacle("ICE", "I", ObstacleType.ICE);
-//        Obstacle ice4 = new Obstacle("ICE", "I", ObstacleType.ICE);
-//
-//        InitializeObstacle(board, ice1, 3, 2);
-//        InitializeObstacle(board, ice2, 3, 4);
-//        InitializeObstacle(board, ice3, 2, 2);
-//        InitializeObstacle(board, ice4, 2, 4);
-//
-//        boardController.setObject(ice1.getRowLocation(), ice1.getColLocation(), "/Images/ice.png");
-//        boardController.setObject(ice2.getRowLocation(), ice2.getColLocation(), "/Images/ice.png");
-//        boardController.setObject(ice3.getRowLocation(), ice1.getColLocation(), "/Images/ice.png");
-//        boardController.setObject(ice4.getRowLocation(), ice2.getColLocation(), "/Images/ice.png");
+        /*Obstacle ice1 = new Obstacle("ICE", "I", ObstacleType.ICE);
+        Obstacle ice2 = new Obstacle("ICE", "I", ObstacleType.ICE);
+        Obstacle ice3 = new Obstacle("ICE", "I", ObstacleType.ICE);
+        Obstacle ice4 = new Obstacle("ICE", "I", ObstacleType.ICE);*/
 
-        //boardController.setDashboardNotifyText("Starting the Game!");
+        //InitializeObstacle(board, DANGER, 3, 1);
+        InitializeObstacle(board, PILLAR, 3, 2);
+        InitializeObstacle(board, PILLAR, 3, 3);
+        //InitializeObstacle(board, DANGER, 3, 4);
+//        InitializeObstacle(board, DANGER, 2, 1);
+//        InitializeObstacle(board, DANGER, 2, 2);
+//        InitializeObstacle(board, DANGER, 2, 3);
+//        InitializeObstacle(board, DANGER, 2, 4);
+
+        //boardController.setObject(3 - 1, 1 - 1, "/Images/danger.png");
+        boardController.setObject(3 - 1, 2 - 1, "/Images/Obstacle/pillar.png");
+        boardController.setObject(3 - 1, 3 - 1, "/Images/Obstacle/pillar.png");
+//        boardController.setObject(3 - 1, 4 - 1, "/Images/danger.png");
+//        boardController.setObject(2 - 1, 1 - 1, "/Images/danger.png");
+//        boardController.setObject(2 - 1, 2 - 1, "/Images/danger.png");
+//        boardController.setObject(2 - 1, 3 - 1, "/Images/danger.png");
+//        boardController.setObject(2 - 1, 4 - 1, "/Images/danger.png");
+
         return playerList;
 
     }
 
-    public static String getPlayerIconPath(String color) {
-        switch (color){
-            case "Black": return "/Images/Player/black.png";
-            case "Blue": return "/Images/Player/blue.png";
-            case "Green": return "/Images/Player/green.png";
-            case "Neon": return "/Images/Player/neon.png";
-            case "Orange": return "/Images/Player/orange.png";
-            case "Pink": return "/Images/Player/pink.png";
-            case "Purple": return "/Images/Player/purple.png";
-            case "Red": return "/Images/Player/red.png";
-            case "White": return "/Images/Player/white.png";
-            case "Yellow": return "/Images/Player/yellow.png";
-        }
-        return null;
-    }
-
-    public static void makeAMove(int count, Directions direction, BoardController boardController, Player currentPlayer) {
+    public static void makeAMove(int countValue, Directions direction, BoardController boardController, Player currentPlayer) {
 
         boardController.setDisplayInformation(" ");
-        int checkCount;
+
         boolean edgeCase;
-        System.out.println("Current Player: "+currentPlayer.getName()+ " Count: "+count+" Direction: "+direction.toString()+" Row: "+(currentPlayer.getRowLocation()-1));
-        checkCount = count;
+        System.out.println("Current Player: " + currentPlayer.getName() + " Count: " + count + " Direction: " + direction.toString() + " Row: " + (currentPlayer.getRowLocation() - 1));
+
+        count = countValue;
         edgeCase = false;
 
-        while (checkCount > 0 && edgeCase == false) {
-
-            if (currentPlayer.isMissNextTurn()) {
-                boardController.setDisplayInformation("ICE Effect! Missed Turn.");
-                currentPlayer.setMissNextTurn(false);
-                break;
-            }
+        while (count > 0 && edgeCase == false) {
 
             switch (direction) {
                 case FORWARD:
-                    if(checkWinningCondition(currentPlayer,boardController)){
-                        checkCount = 0;
+                    if (currentPlayer.getRowLocation() == 0) {
+                        count = 0;
                         break;
                     } else if (board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()) == null) {
-                        board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
-                        currentPlayer.setRowLocation(currentPlayer.getRowLocation() - 1);
-                        board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);
-                        checkCount--;
-
-                        // Check if the player won
-                        if (checkWinningCondition(currentPlayer,boardController)) {
-                            break;
-                        }
+                        movePlayer(currentPlayer,direction,boardController);
+                        count--;
                         break;
-                        // Check if the next cell has a Pillar or Player
-                    } else if ((board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getObstacle() != null) || (board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getPlayer() != null)) {
-                        if (board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getPlayer() != null) {
-                            direction = boardController.getDirection(currentPlayer, board, direction);
-                            break;
-                        } else if ((board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getObstacle().getType() == ObstacleType.PILLAR)) {
-                            direction = boardController.getDirection(currentPlayer, board, direction);
-                            break;
-                        } else if ((board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getObstacle().getType() == ObstacleType.ICE)) {
-                            board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
-                            //board.setBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(),new BoardCell(ice));
-                            currentPlayer.setRowLocation(currentPlayer.getRowLocation() - 1);
-                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);
-                            checkCount--;
-
-                            if (checkCount == 0) {
-                                currentPlayer.setMissNextTurn(true);
-                                boardController.setDisplayInformation("You stepped on the ice! You will miss the next turn.");
-                            }
-                            break;
-                        } else if ((board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getObstacle().getType() == ObstacleType.DANGER)) {
-                            board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
-                            //board.setBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(),new BoardCell(ice));
-                            currentPlayer.setRowLocation(currentPlayer.getRowLocation() - 1);
-                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);
-                            checkCount--;
-
-                            if (checkCount == 0) {
-                                Danger(currentPlayer, boardController);
-                                boardController.setDisplayInformation("You stepped on the Danger Trap! Start Again");
-                            }
-                            break;
-
-                        }
-
+                    } else if (board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getObstacle() != null) {
+                        Obstacle obs = board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getObstacle();
+                        obs.obstacleCondition(board, currentPlayer, boardController, direction);
+                        break;
                     }
-
-
                 case BACKWARD:
-                    // Edge Case: if the players tries to go out of the board
                     if (currentPlayer.getRowLocation() + 1 > gridSize - 1) {
                         boardController.setDisplayInformation("Sorry, You cannot go outside the board!");
                         edgeCase = true;
                         break;
                     } else {
-                        // Check if the next cell is null before moving
                         if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()) == null) {
-                            board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
-                            currentPlayer.setRowLocation(currentPlayer.getRowLocation() + 1);
-                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);
-                            checkCount--;
-
-                            // Check if the player won
-                            if (checkWinningCondition(currentPlayer, boardController)) {
-                                break;
-                            }
+                            movePlayer(currentPlayer,direction,boardController);
+                            count--;
                             break;
-
-                            // Check if the next cell has a Pillar
-                        } else if ((board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle() != null) ||
-                                (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getPlayer() != null)) {
-                            if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getPlayer() != null) {
-                                direction = boardController.getDirection(currentPlayer, board, direction);
-                                break;
-                            } else if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle().getType() == ObstacleType.PILLAR) {
-                                direction = boardController.getDirection(currentPlayer, board, direction);
-                                break;
-                            } else if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle().getType() == ObstacleType.ICE) {
-                                board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
-                                currentPlayer.setRowLocation(currentPlayer.getRowLocation() + 1);
-                                board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);
-                                checkCount--;
-
-                                if (checkCount == 0) {
-                                    currentPlayer.setMissNextTurn(true);
-                                    boardController.setDisplayInformation("You stepped on the ice! You will miss the next turn.");
-                                }
-                                break;
-
-                            } else if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle().getType() == ObstacleType.DANGER) {
-                                board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
-                                currentPlayer.setRowLocation(currentPlayer.getRowLocation() + 1);
-                                board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);
-                                checkCount--;
-                                if (checkCount == 0) {
-                                    Danger(currentPlayer, boardController);
-                                    boardController.setDisplayInformation("You stepped on the Danger Trap! Start Again");
-                                }
-                                break;
-                            }
+                        } else if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle() != null) {
+                            Obstacle obs = board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle();
+                            obs.obstacleCondition(board, currentPlayer, boardController, direction);
+                            break;
                         }
-
                     }
                 case RIGHT:
-                    // Edge Case: Check if the player is on right edge of the board
                     if (currentPlayer.getColLocation() + 1 > gridSize - 1) {
                         direction = boardController.getDirection(currentPlayer, board, direction);
                         break;
                     } else {
-                        // Check if the next cell is null before moving
                         if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1) == null) {
-                            board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
-                            currentPlayer.setColLocation(currentPlayer.getColLocation() + 1);
-                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);
-                            checkCount--;
-
-                            // Check if the player won
-                            if (checkWinningCondition(currentPlayer, boardController)) {
-                                break;
-                            }
+                            movePlayer(currentPlayer,direction,boardController);
+                            count--;
                             break;
-                            // Check if the next cell has a Pillar
-                        } else if ((board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getObstacle() != null) ||
-                                (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getPlayer() != null)) {
-                            if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getPlayer() != null) {
-                                direction = boardController.getDirection(currentPlayer, board, direction);
-                                break;
-                            } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getObstacle().getType() == ObstacleType.PILLAR) {
-                                direction = boardController.getDirection(currentPlayer, board, direction);
-                                break;
-                            } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getObstacle().getType() == ObstacleType.ICE) {
-                                board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
-                                currentPlayer.setColLocation(currentPlayer.getColLocation() + 1);
-                                board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);
-                                checkCount--;
-
-                                if (checkCount == 0) {
-                                    currentPlayer.setMissNextTurn(true);
-                                    boardController.setDisplayInformation("You stepped on the ice! You will miss the next turn.");
-                                }
-                                break;
-                            } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getObstacle().getType() == ObstacleType.DANGER) {
-                                board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
-                                currentPlayer.setColLocation(currentPlayer.getColLocation() + 1);
-                                board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);
-                                checkCount--;
-
-                                if (checkCount == 0) {
-                                    Danger(currentPlayer, boardController);
-                                    boardController.setDisplayInformation("You stepped on the Danger Trap! Start Again");
-                                }
-                                break;
-                            }
-
+                        } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getObstacle() != null) {
+                            Obstacle obs = board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getObstacle();
+                            obs.obstacleCondition(board, currentPlayer, boardController, direction);
+                            break;
                         }
-
                     }
                 case LEFT:
                     if (currentPlayer.getColLocation() - 1 < 0) {
                         direction = boardController.getDirection(currentPlayer, board, direction);
                         break;
                     } else {
-                        // Check if the next cell is null before moving
                         if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1) == null) {
-                            board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
-                            currentPlayer.setColLocation(currentPlayer.getColLocation() - 1);
-                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);
-                            checkCount--;
-
-                            // Check if the player won
-                            if (checkWinningCondition(currentPlayer, boardController)) {
-                                break;
-                            }
-
+                            movePlayer(currentPlayer,direction,boardController);
+                            count--;
                             break;
-                            // Check if the next cell has a Pillar
-                        } else if ((board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle() != null) ||
-                                (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getPlayer() != null)) {
-                            if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getPlayer() != null) {
-                                direction = boardController.getDirection(currentPlayer, board, direction);
-                                break;
-                            } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle().getType() == ObstacleType.PILLAR) {
-                                direction = boardController.getDirection(currentPlayer, board, direction);
-                                break;
-                            } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle().getType() == ObstacleType.ICE) {
-                                board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
-                                currentPlayer.setColLocation(currentPlayer.getColLocation() - 1);
-                                board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);
-                                checkCount--;
-
-                                if (checkCount == 0) {
-                                    currentPlayer.setMissNextTurn(true);
-                                    boardController.setDisplayInformation("You stepped on the ice! You will miss the next turn.");
-                                }
-                                break;
-                            } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle().getType() == ObstacleType.DANGER) {
-                                board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
-                                currentPlayer.setColLocation(currentPlayer.getColLocation() - 1);
-                                board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);
-                                checkCount--;
-
-                                if (checkCount == 0) {
-                                    Danger(currentPlayer, boardController);
-                                    boardController.setDisplayInformation("You stepped on the Danger Trap! Start Again");
-                                }
-
-                                break;
-                            }
+                        } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle() != null) {
+                            Obstacle obs = board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle();
+                            obs.obstacleCondition(board, currentPlayer, boardController, direction);
+                            break;
                         }
                     }
                 case MISS:
+                    boardController.setDisplayInformation("Missed Turn.");
                     edgeCase = true;
                     break;
             }
         }
-        /*}
-        return false;*/
-    }
 
-    private static void Danger(Player currentPlayer, BoardController boardController) {
-        board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
-        currentPlayer.setLocation(gridSize - 1, startCell.get(currentPlayer) - 1);
-        board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);
-    }
-
-    /*public static void startAGame(BoardController boardController){
-
-        while (!isWin) {
-            for (int i = 0; i < playerList.size(); i++) {
-                // Check for win
-                if (isWin) {
-                    break;
-                } else {
-                    Player currentPlayer = playerList.get(i);
-                    boardController.setDashboardNotifyText("Turn: " + currentPlayer.getName());
-
-                    // Generate the Dice values
-                    int count = dice.generateCount();
-                    Directions direction = dice.generateDirection();
-                    boardController.setDashboardNotifyText("DICE - Count:" + count + " Direction:" + direction);
-
-                    checkCount = count;
-                    edgeCase = false;
-                    String getDirection;
-
-                    // Check for the edge cases
-                    while (checkCount > 0 && edgeCase == false) {
-                        if (currentPlayer.isMissNextTurn()) {
-                            System.out.println("ICE Effect! Missed Turn.");
-                            currentPlayer.setMissNextTurn(false);
-                            break;
-                        }
-                        switch (direction) {
-                            case FORWARD:
-                                // Edge Case: In last turn, if the player doesn't get correct number
-                                if (currentPlayer.getRowLocation() - checkCount < 0) {
-                                    System.out.println("Almost there. Try Again!");
-                                    edgeCase = true;
-                                    break;
-                                } else {
-                                    // Check if the next is null before moving
-                                    if (board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()) == null) {
-                                        board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
-                                        currentPlayer.setRowLocation(currentPlayer.getRowLocation() - 1);
-                                        board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
-                                        checkCount--;
-
-                                        // Check if the player won
-                                        if (checkWinningCondition(currentPlayer)) {
-                                            isWin = true;
-                                            break;
-                                        }
-                                        break;
-                                        // Check if the next cell has a Pillar or Player
-                                    } else if ((board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getObstacle() != null) || (board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getPlayer() != null)) {
-                                        if (board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getPlayer() != null) {
-                                            direction = Pillar(currentPlayer, direction);
-                                            break;
-                                        } else if ((board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getObstacle().getType() == ObstacleType.PILLAR)) {
-                                            direction = Pillar(currentPlayer, direction);
-                                            break;
-                                        } else if ((board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getObstacle().getType() == ObstacleType.ICE)) {
-                                            board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
-                                            //board.setBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(),new BoardCell(ice));
-                                            currentPlayer.setRowLocation(currentPlayer.getRowLocation() - 1);
-                                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
-                                            checkCount--;
-
-                                            if (checkCount == 0) {
-                                                currentPlayer.setMissNextTurn(true);
-                                            }
-                                            break;
-                                        } else if (checkCount == 1 && (board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getObstacle().getType() == ObstacleType.FIRE)) {
-
-                                            board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
-                                            currentPlayer.setLocation(gridSize-1, startCell.get(currentPlayer));
-                                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
-                                            checkCount--;
-                                            break;
-
-                                        }
-
-                                    }
-                                }
-
-                            case BACKWARD:
-                                // Edge Case: if the players tries to go out of the board
-                                if (currentPlayer.getRowLocation() + 1 > gridSize - 1) {
-                                    System.out.println("Sorry, You cannot go outside the board!");
-                                    edgeCase = true;
-                                    break;
-                                } else {
-                                    // Check if the next cell is null before moving
-                                    if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()) == null) {
-                                        board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
-                                        currentPlayer.setRowLocation(currentPlayer.getRowLocation() + 1);
-                                        board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
-                                        checkCount--;
-
-                                        // Check if the player won
-                                        if (checkWinningCondition(currentPlayer)) {
-                                            isWin = true;
-                                            break;
-                                        }
-                                        break;
-
-                                        // Check if the next cell has a Pillar
-                                    } else if ((board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle() != null) ||
-                                            (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getPlayer() != null)) {
-                                        if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getPlayer() != null) {
-                                            direction = Pillar(currentPlayer, direction);
-                                            break;
-                                        } else if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle().getType() == ObstacleType.PILLAR) {
-                                            direction = Pillar(currentPlayer, direction);
-                                            break;
-                                        } else if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle().getType() == ObstacleType.ICE) {
-                                            board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
-                                            currentPlayer.setRowLocation(currentPlayer.getRowLocation() + 1);
-                                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
-                                            checkCount--;
-
-                                            if (checkCount == 0) {
-                                                currentPlayer.setMissNextTurn(true);
-                                            }
-                                            break;
-
-                                        } else if (checkCount == 1 && board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle().getType() == ObstacleType.FIRE) {
-                                            board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
-                                            currentPlayer.setLocation(gridSize-1,startCell.get(currentPlayer));
-                                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
-                                            checkCount--;
-                                            break;
-                                        }
-                                    }
-
-                                }
-                            case RIGHT:
-                                // Edge Case: Check if the player is on right edge of the board
-                                if (currentPlayer.getColLocation() + 1 > gridSize - 1) {
-                                    System.out.println("End of Board! Select FORWARD or BACKWARD or MISS");
-                                    getDirection = input.nextLine();
-                                    direction = getDirectionValue(getDirection);
-                                    break;
-                                } else {
-                                    // Check if the next cell is null before moving
-                                    if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1) == null) {
-                                        board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
-                                        currentPlayer.setColLocation(currentPlayer.getColLocation() + 1);
-                                        board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
-                                        checkCount--;
-
-                                        // Check if the player won
-                                        if (checkWinningCondition(currentPlayer)) {
-                                            isWin = true;
-                                            break;
-                                        }
-                                        break;
-                                        // Check if the next cell has a Pillar
-                                    } else if ((board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getObstacle() != null) ||
-                                            (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getPlayer() != null)) {
-                                        if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getPlayer() != null) {
-                                            direction = Pillar(currentPlayer, direction);
-                                            break;
-                                        } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getObstacle().getType() == ObstacleType.PILLAR) {
-                                            direction = Pillar(currentPlayer, direction);
-                                            break;
-                                        } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getObstacle().getType() == ObstacleType.ICE) {
-                                            board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
-                                            currentPlayer.setColLocation(currentPlayer.getColLocation() + 1);
-                                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
-                                            checkCount--;
-
-                                            if (checkCount == 0) {
-                                                currentPlayer.setMissNextTurn(true);
-                                            }
-                                            break;
-                                        } else if (checkCount == 1 && board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getObstacle().getType() == ObstacleType.FIRE) {
-                                            board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
-                                            currentPlayer.setLocation(gridSize-1,startCell.get(currentPlayer));
-                                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
-                                            checkCount--;
-                                            break;
-                                        }
-
-                                    }
-
-                                }
-                            case LEFT:
-                                if (currentPlayer.getColLocation() - 1 < 0) {
-                                    System.out.println("End of Board! Select FORWARD or BACKWARD");
-                                    getDirection = input.nextLine();
-                                    direction = getDirectionValue(getDirection);
-                                    break;
-                                } else {
-                                    // Check if the next cell is null before moving
-                                    if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1) == null) {
-                                        board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
-                                        currentPlayer.setColLocation(currentPlayer.getColLocation() - 1);
-                                        board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
-                                        checkCount--;
-
-                                        // Check if the player won
-                                        if (checkWinningCondition(currentPlayer)) {
-                                            isWin = true;
-                                            break;
-                                        }
-
-                                        break;
-                                        // Check if the next cell has a Pillar
-                                    } else if ((board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle() != null) ||
-                                            (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getPlayer() != null)) {
-                                        if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getPlayer() != null) {
-                                            direction = Pillar(currentPlayer, direction);
-                                            break;
-                                        } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle().getType() == ObstacleType.PILLAR) {
-                                            direction = Pillar(currentPlayer, direction);
-                                            break;
-                                        } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle().getType() == ObstacleType.ICE) {
-                                            board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
-                                            currentPlayer.setColLocation(currentPlayer.getColLocation() - 1);
-                                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
-                                            checkCount--;
-
-                                            if (checkCount == 0) {
-                                                currentPlayer.setMissNextTurn(true);
-                                            }
-                                            break;
-                                        } else if ( checkCount == 1 && board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle().getType() == ObstacleType.FIRE) {
-                                            board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation());
-                                            currentPlayer.setLocation(gridSize-1,startCell.get(currentPlayer));
-                                            board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer);
-                                            checkCount--;
-                                            break;
-                                        }
-                                    }
-                                }
-                            case MISS:
-                                edgeCase = true;
-                                break;
-                        }
-                    }
-                    board.printBoard();
-                }
-
-            }
-        }
-
-    }*/
-
-    public static Directions Pillar(Player player, Directions direction) {
-        Scanner input = new Scanner(System.in);
-        String getDirection;
-        switch (direction) {
-            case FORWARD:
-            case BACKWARD:
-                if (player.getColLocation() - 1 < 0) {
-                    System.out.println("End of Board! Select RIGHT(R) or MISS(M)");
-                    getDirection = input.nextLine();
-                    direction = getDirectionValue(getDirection);
-                } else if (player.getColLocation() + 1 > gridSize - 1) {
-                    System.out.println("End of Board! Select LEFT(L) or MISS(M)");
-                    getDirection = input.nextLine();
-                    direction = getDirectionValue(getDirection);
-                } else {
-                    System.out.println("Obstacle! Select LEFT(L) or RIGHT(R) or MISS(M)");
-                    getDirection = input.nextLine();
-                    direction = getDirectionValue(getDirection);
-                }
-                return direction;
-            case RIGHT:
-                System.out.println("Obstacle! Select FORWARD or BACKWARD or MISS");
-                getDirection = input.nextLine();
-                direction = getDirectionValue(getDirection);
-                return direction;
-            case LEFT:
-                System.out.println("Obstacle! Select FORWARD or BACKWARD");
-                getDirection = input.nextLine();
-                direction = getDirectionValue(getDirection);
-                return direction;
-        }
-        return null;
-    }
-
-    public static Directions getDirectionValue(String direction) {
-        Directions tempDirection;
-
-        switch (direction) {
-            case "F":
-                tempDirection = FORWARD;
-                break;
-            case "B":
-                tempDirection = BACKWARD;
-                break;
-            case "R":
-                tempDirection = RIGHT;
-                break;
-            case "L":
-                tempDirection = LEFT;
-                break;
-            default:
-                System.out.println("Illegal Character! Considering it as a MISS");
-                tempDirection = MISS;
-                break;
-        }
-
-        return tempDirection;
-    }
-
-    public static boolean checkWinningCondition(Player currentPlayer, BoardController boardController) {
-        if (currentPlayer.getRowLocation() == 0) {
-            boardController.isWin = true;
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public static void InitializePlayer(Board board, Player player, int row, int column) {
@@ -672,56 +182,31 @@ public class Game {
         player.setLocation(row - 1, column - 1);
     }
 
-    public static void InitializeObstacle(Board board, Obstacle obstacle, int row, int column) {
-        board.setObstacleOnBoard(row - 1, column - 1, obstacle);
-        obstacle.setLocation(row - 1, column - 1);
+    public static void InitializeObstacle(Board board, ObstacleType obstacleType, int row, int column) {
+        board.setObstacleOnBoard(row - 1, column - 1, obstacleType);
     }
 
-    public static Map<Player, Score> InitializeScore(List<Player> playerList) {
-        Map<Player, Score> scoreList = new HashMap<>();
-        for (int i = 0; i < playerList.size(); i++) {
-            Score score = new Score();
-            scoreList.put(playerList.get(i), score);
+    public static void movePlayer(Player currentPlayer, Directions directions,BoardController boardController){
+
+        int tempRow = currentPlayer.getRowLocation();
+        int tempCol = currentPlayer.getColLocation();
+
+        board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
+
+        if(directions == FORWARD || directions == BACKWARD){
+            tempRow = getRowValue(tempRow, directions);
+            currentPlayer.setRowLocation(tempRow);
+        } else if(directions == LEFT || directions == RIGHT){
+            tempCol = getColValue(tempCol,directions);
+            currentPlayer.setColLocation(tempCol);
+        } else {
+            throw new RuntimeException("Not a valid Direction");
         }
-        return scoreList;
+
+        board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);
+
     }
 
-    public static void UpdateScoreboardToFile(Map<Player, Score> scoreList) {
-
-
-//        try {
-//            ObjectOutputStream objectStream = new ObjectOutputStream(new FileOutputStream(new
-//                    File("cashRegister.obj")));
-//            objectStream.writeObject(rs);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-
-        /*File file = new File("ScoreBoard.txt");
-
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                throw new RuntimeException("Couldn't create Scorecard!");
-            }
-        }
-
-        Writer output;
-        try {
-            output = new BufferedWriter(new FileWriter("ScoreBoard.txt"));
-            for (Map.Entry<String, Integer> entry : score.entrySet()) {
-                output.append(entry.getKey() + "\t" + entry.getValue() + "\n");
-            }
-            output.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        System.out.println("Scoreboard updated!");*/
-
-
-    }
 
 
 }

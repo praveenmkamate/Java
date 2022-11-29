@@ -1,20 +1,53 @@
-package Board;
+package board;
+
+import obstacle.Danger;
+import obstacle.Ice;
+import obstacle.Obstacle;
+import board.Common.*;
+import obstacle.Pillar;
 
 public class BoardCell {
     Player player;
     Obstacle obstacle;
 
+    ObstacleType obstacleType;
+
+    public BoardCell(Common.ObstacleType obstacleType) {
+        this.obstacleType = obstacleType;
+        this.obstacle = createObstacle(obstacleType);
+    }
+
     public BoardCell(Player player) {
         this.player = player;
     }
 
-    public BoardCell(Obstacle obstacle) {
-        this.obstacle = obstacle;
+    public BoardCell(Player player, ObstacleType obstacleType) {
+        this.player = player;
+        this.obstacleType = obstacleType;
     }
 
-    public BoardCell(Player player, Obstacle obstacle) {
-        this.player = player;
-        this.obstacle = obstacle;
+    public ObstacleType getObstacleType() {
+        return obstacleType;
+    }
+
+    public Obstacle createObstacle(ObstacleType obstacleType){
+        Obstacle obstacle;
+        switch (obstacleType){
+            case ICE:
+                obstacle = new Ice();
+                break;
+            case DANGER:
+                obstacle = new Danger();
+                break;
+            case PILLAR:
+                obstacle = new Pillar();
+                break;
+            default:
+                obstacle = null;
+                break;
+
+        }
+        return obstacle;
     }
 
     public Obstacle getObstacle() {
@@ -24,9 +57,6 @@ public class BoardCell {
             return obstacle;
     }
 
-    public void setObstacle(Obstacle obstacle) {
-        this.obstacle = obstacle;
-    }
 
     public Player getPlayer() {
         if (this.player == null)

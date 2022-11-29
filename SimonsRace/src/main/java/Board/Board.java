@@ -1,8 +1,12 @@
-package Board;
+package board;
 
-import Controller.Game;
+import board.Common.ObstacleType;
+import controller.Game;
 import view.BoardController;
-import Board.Obstacle.*;
+
+import static board.Common.ObstacleType.*;
+import static board.Common.getPlayerIconPath;
+
 public class Board {
 
     private int length;
@@ -10,8 +14,8 @@ public class Board {
 
     private BoardCell[][] board;
 
-    public void setObstacleOnBoard(int length, int breadth, Obstacle obstacle) {
-        board[length][breadth] = new BoardCell(obstacle);
+    public void setObstacleOnBoard(int length, int breadth, ObstacleType obstacleType) {
+        board[length][breadth] = new BoardCell(obstacleType);
     }
 
     public void setPlayerOnBoard(int length, int breadth, Player player) {
@@ -22,16 +26,16 @@ public class Board {
     public void movePlayerOnBoard(int length, int breadth, Player player, BoardController boardController) {
         try {
             if (!(board[length][breadth] == null) && (board[length][breadth].getObstacle() != null)) {
-                board[length][breadth] = new BoardCell(player, board[length][breadth].getObstacle());
-                if(board[length][breadth].getObstacle().getType() == ObstacleType.ICE){
+                board[length][breadth] = new BoardCell(player, board[length][breadth].getObstacleType());
+                if(board[length][breadth].getObstacleType() == ICE){
                     boardController.setObject(length,breadth,"/Images/playerIce.png");
                 } else {
-                    boardController.setObject(length,breadth,getObstaclePath(board[length][breadth].getObstacle()));
+                    boardController.setObject(length,breadth,getObstaclePath(board[length][breadth].getObstacleType()));
                 }
             } else {
                 Game game = new Game();
                 board[length][breadth] = new BoardCell(player);
-                boardController.setObject(length,breadth,game.getPlayerIconPath(player.getColor()));
+                boardController.setObject(length,breadth, getPlayerIconPath(player.getColor()));
             }
         } catch (Exception e) {
             System.out.println("Exception in movePlayerOnBoard:" + e);
@@ -41,10 +45,10 @@ public class Board {
     public void clearBoardCell(int length, int breadth, BoardController boardController) {
         try {
             if (!(board[length][breadth] == null)) {
-                if (board[length][breadth].getObstacle() != null) {
+                if (board[length][breadth].getObstacleType() != null) {
                     boardController.removeObject(length,breadth);
-                    board[length][breadth] = new BoardCell(board[length][breadth].getObstacle());
-                    boardController.setObject(length,breadth,getObstaclePath(board[length][breadth].getObstacle()));
+                    board[length][breadth] = new BoardCell(board[length][breadth].getObstacleType());
+                    boardController.setObject(length,breadth,getObstaclePath(board[length][breadth].getObstacleType()));
 
                 } else {
                     board[length][breadth] = null;
@@ -56,53 +60,22 @@ public class Board {
         }
     }
 
-    public String getObstaclePath(Obstacle obstacle){
-        if(obstacle.getType() == ObstacleType.DANGER){
+    public String getObstaclePath(ObstacleType obstacleType){
+        if(obstacleType == DANGER){
             return "/Images/danger.png";
-        } else if(obstacle.getType() == ObstacleType.PILLAR){
+        } else if(obstacleType == PILLAR){
             return "/Images/pillar.png";
-        } else if(obstacle.getType() == ObstacleType.ICE){
+        } else if(obstacleType == ICE){
             return "/Images/ice.png";
         } else {
             throw new RuntimeException("Obstacle not found!");
         }
     }
 
-    public String getPlayerPath(Player player){
-        //Change
-        if(player.getName() == "RockyBhai"){
-            return "/Images/redPawn.png";
-        } else if(player.getName() == "MunnaBhai"){
-            return "/Images/grnPawn.png";
-        } else {
-            throw new RuntimeException("Obstacle not found!");
-        }
-    }
-
     public BoardCell getBoardCell(int length, int breadth) {
+        if(length < 0)
+            length = 0;
         return board[length][breadth];
-    }
-
-    /*public void printBoard() {
-        for (int i = 0; i < length; i++) {
-            for (int j = 0; j < breadth; j++) {
-                if (board[i][j] == null) {
-                    System.out.print("_ ");
-                } else if (((board[i][j].getObstacle()) instanceof Obstacle) && ((board[i][j].getPlayer()) instanceof Player)) {
-                    System.out.print("(" + board[i][j].getPlayer().getInitial() + "," + board[i][j].getObstacle().getInitial() + ")");
-                } else if ((board[i][j].getObstacle()) instanceof Obstacle) {
-                    System.out.print(board[i][j].getObstacle().getInitial() + " ");
-                } else if ((board[i][j].getPlayer()) instanceof Player) {
-                    System.out.print(board[i][j].getPlayer().getInitial() + " ");
-                } else {
-                    throw new RuntimeException("Unknown Object on the board");
-                }
-            }
-            System.out.println("\n");
-        }
-    }*/
-
-    public Board() {
     }
 
     public Board(int length) {
@@ -118,22 +91,6 @@ public class Board {
         this.breadth = breadth;
 
         board = new BoardCell[length][breadth];
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-    public int getBreadth() {
-        return breadth;
-    }
-
-    public void setBreadth(int breadth) {
-        this.breadth = breadth;
     }
 
 }

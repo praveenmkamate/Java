@@ -1,19 +1,21 @@
 package view;
 
-import Board.Player;
+import board.Player;
+import board.Score;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 public class WinController {
     @FXML
@@ -30,12 +32,15 @@ public class WinController {
 
     @FXML
     Button btnPlayAgain;
-    public void receiveData(Player currentPlayer) {
+    public void receiveData(Player currentPlayer, List<Player> playerList) throws IOException {
         winText.setText("Congratulations "+currentPlayer.getName()+"! You won!");
         winText.setTextAlignment(TextAlignment.CENTER);
 
         scoreText.setTextAlignment(TextAlignment.CENTER);
         scoreText.setText("Your Score is "+currentPlayer.getScore());
+
+        Score score = new Score();
+        score.writeScore(playerList);
     }
 
     public void bPlayAgain() throws IOException {
