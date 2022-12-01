@@ -1,7 +1,7 @@
 package view;
 
 import board.Player;
-import board.Score;
+//import board.Score;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -39,8 +39,8 @@ public class WinController {
         scoreText.setTextAlignment(TextAlignment.CENTER);
         scoreText.setText("Your Score is "+currentPlayer.getScore());
 
-        Score score = new Score();
-        score.writeScore(playerList);
+        /*Score score = new Score();
+        score.writeScore(playerList);*/
     }
 
     public void bPlayAgain() throws IOException {

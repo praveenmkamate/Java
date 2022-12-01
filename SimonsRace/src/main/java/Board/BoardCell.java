@@ -1,10 +1,7 @@
 package board;
 
-import obstacle.Danger;
-import obstacle.Ice;
-import obstacle.Obstacle;
+import obstacle.*;
 import board.Common.*;
-import obstacle.Pillar;
 
 public class BoardCell {
     Player player;
@@ -41,6 +38,12 @@ public class BoardCell {
                 break;
             case PILLAR:
                 obstacle = new Pillar();
+                break;
+            case SANTA:
+                obstacle = new Santa();
+                break;
+            case PIRATE:
+                obstacle = new Pirate();
                 break;
             default:
                 obstacle = null;

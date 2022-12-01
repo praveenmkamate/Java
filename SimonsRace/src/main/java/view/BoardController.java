@@ -138,10 +138,13 @@ public class BoardController {
         currentPlayer = playerList.get(playerCount);
         playerCount++;
 
-        count = dice.generateCount();
-        directions = dice.generateDirection();
+        /*count = dice.generateCount();
+        directions = dice.generateDirection();*/
 
-        currentPlayer.addScore(calculateScore(currentPlayer.getScore(),count,directions));
+        count = 2;
+        directions = FORWARD;
+
+        currentPlayer.setScore(calculateScore(currentPlayer.getScore(),count,directions));
         setPlayerName("Previous Player: "+currentPlayer.getName());
         setDiceDisplay("Count: "+count+" Direction: "+directions.toString());
         if (currentPlayer.isMissNextTurn()) {
@@ -211,6 +214,7 @@ public class BoardController {
     public void setObject(int row, int col, String path) throws URISyntaxException {
         StackPane square = (StackPane) boardGridPane.lookup("#"+String.valueOf(row)+String.valueOf(col));
         Image image = new Image(getClass().getResourceAsStream(path),square.getPrefHeight(),square.getPrefWidth(),false,false);
+        square.getChildren().clear();
         square.getChildren().add(new ImageView(image));
     }
 

@@ -5,6 +5,7 @@ import board.Common.ObstacleType;
 import board.Dice.Directions;
 import board.Player;
 import obstacle.Obstacle;
+import obstacle.Pillar;
 import view.BoardController;
 
 import java.net.URISyntaxException;
@@ -25,6 +26,7 @@ public class Game {
     public static Map<Player, Integer> startCell = new HashMap<Player, Integer>();
     public static Board board;
     public static int count;
+    public static int duplicateCount;
 
     public static List<Player> InitializeBoard(int gSize, int noOfPlayers, List<String> playerNames, BoardController boardController, Map<String, String> playerColor, Map<String, Integer> playerLane) throws URISyntaxException {
 
@@ -41,6 +43,7 @@ public class Game {
             startCell.put(playerList.get(i), playerLane.get(playerList.get(i).getName()));
             boardController.setObject(playerList.get(i).getRowLocation(), playerList.get(i).getColLocation(), getPlayerIconPath(playerColor.get(playerList.get(i).getName())));
         }
+
 
         //Obstacle danger1 = new Obstacle("DANGER", "F", ObstacleType.DANGER);
         //Obstacle danger2 = new Obstacle("DANGER", "F", ObstacleType.DANGER);
@@ -75,8 +78,8 @@ public class Game {
         Obstacle ice4 = new Obstacle("ICE", "I", ObstacleType.ICE);*/
 
         //InitializeObstacle(board, DANGER, 3, 1);
-        InitializeObstacle(board, PILLAR, 3, 2);
-        InitializeObstacle(board, PILLAR, 3, 3);
+//        InitializeObstacle(board, PIRATE, 3, 2);
+//        InitializeObstacle(board, PIRATE, 2, 3);
         //InitializeObstacle(board, DANGER, 3, 4);
 //        InitializeObstacle(board, DANGER, 2, 1);
 //        InitializeObstacle(board, DANGER, 2, 2);
@@ -84,8 +87,8 @@ public class Game {
 //        InitializeObstacle(board, DANGER, 2, 4);
 
         //boardController.setObject(3 - 1, 1 - 1, "/Images/danger.png");
-        boardController.setObject(3 - 1, 2 - 1, "/Images/Obstacle/pillar.png");
-        boardController.setObject(3 - 1, 3 - 1, "/Images/Obstacle/pillar.png");
+//        boardController.setObject(3 - 1, 2 - 1, getObstacleIconPath(PIRATE));
+//        boardController.setObject(2 - 1, 3 - 1, getObstacleIconPath(PIRATE));
 //        boardController.setObject(3 - 1, 4 - 1, "/Images/danger.png");
 //        boardController.setObject(2 - 1, 1 - 1, "/Images/danger.png");
 //        boardController.setObject(2 - 1, 2 - 1, "/Images/danger.png");
@@ -104,6 +107,7 @@ public class Game {
         System.out.println("Current Player: " + currentPlayer.getName() + " Count: " + count + " Direction: " + direction.toString() + " Row: " + (currentPlayer.getRowLocation() - 1));
 
         count = countValue;
+        duplicateCount = countValue;
         edgeCase = false;
 
         while (count > 0 && edgeCase == false) {
@@ -114,8 +118,11 @@ public class Game {
                         count = 0;
                         break;
                     } else if (board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()) == null) {
-                        movePlayer(currentPlayer,direction,boardController);
+                        movePlayer(currentPlayer, direction, boardController);
                         count--;
+                        break;
+                    } else if (board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getPlayer() != null) {
+                        new Pillar().obstacleCondition(board, currentPlayer, boardController, direction);
                         break;
                     } else if (board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getObstacle() != null) {
                         Obstacle obs = board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getObstacle();
@@ -129,8 +136,11 @@ public class Game {
                         break;
                     } else {
                         if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()) == null) {
-                            movePlayer(currentPlayer,direction,boardController);
+                            movePlayer(currentPlayer, direction, boardController);
                             count--;
+                            break;
+                        } else if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getPlayer() != null) {
+                            new Pillar().obstacleCondition(board, currentPlayer, boardController, direction);
                             break;
                         } else if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle() != null) {
                             Obstacle obs = board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle();
@@ -144,8 +154,11 @@ public class Game {
                         break;
                     } else {
                         if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1) == null) {
-                            movePlayer(currentPlayer,direction,boardController);
+                            movePlayer(currentPlayer, direction, boardController);
                             count--;
+                            break;
+                        } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getPlayer() != null) {
+                            new Pillar().obstacleCondition(board, currentPlayer, boardController, direction);
                             break;
                         } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getObstacle() != null) {
                             Obstacle obs = board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getObstacle();
@@ -159,8 +172,11 @@ public class Game {
                         break;
                     } else {
                         if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1) == null) {
-                            movePlayer(currentPlayer,direction,boardController);
+                            movePlayer(currentPlayer, direction, boardController);
                             count--;
+                            break;
+                        } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getPlayer() != null) {
+                            new Pillar().obstacleCondition(board, currentPlayer, boardController, direction);
                             break;
                         } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle() != null) {
                             Obstacle obs = board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle();
@@ -186,18 +202,18 @@ public class Game {
         board.setObstacleOnBoard(row - 1, column - 1, obstacleType);
     }
 
-    public static void movePlayer(Player currentPlayer, Directions directions,BoardController boardController){
+    public static void movePlayer(Player currentPlayer, Directions directions, BoardController boardController) {
 
         int tempRow = currentPlayer.getRowLocation();
         int tempCol = currentPlayer.getColLocation();
 
         board.clearBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), boardController);
 
-        if(directions == FORWARD || directions == BACKWARD){
+        if (directions == FORWARD || directions == BACKWARD) {
             tempRow = getRowValue(tempRow, directions);
             currentPlayer.setRowLocation(tempRow);
-        } else if(directions == LEFT || directions == RIGHT){
-            tempCol = getColValue(tempCol,directions);
+        } else if (directions == LEFT || directions == RIGHT) {
+            tempCol = getColValue(tempCol, directions);
             currentPlayer.setColLocation(tempCol);
         } else {
             throw new RuntimeException("Not a valid Direction");
@@ -206,7 +222,6 @@ public class Game {
         board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);
 
     }
-
 
 
 }

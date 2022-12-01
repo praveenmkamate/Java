@@ -1,3 +1,4 @@
+/*
 package board;
 
 import java.io.*;
@@ -43,7 +44,8 @@ public class Score {
             objectOutputStream.close();
             fileOutputStream.close();
 
-            /*FileInputStream fi = new FileInputStream(new File("myObjects.txt"));
+            */
+/*FileInputStream fi = new FileInputStream(new File("myObjects.txt"));
             ObjectInputStream oi = new ObjectInputStream(fi);
 
             // Read objects
@@ -55,9 +57,10 @@ public class Score {
 
             oi.close();
             fi.close();
-*/
+*//*
+
         } catch (IOException e) {
             System.out.println("File not found");
         }
     }
-}
+}*/

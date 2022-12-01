@@ -4,8 +4,8 @@ import board.Common.ObstacleType;
 import controller.Game;
 import view.BoardController;
 
+import static board.Common.*;
 import static board.Common.ObstacleType.*;
-import static board.Common.getPlayerIconPath;
 
 public class Board {
 
@@ -27,13 +27,13 @@ public class Board {
         try {
             if (!(board[length][breadth] == null) && (board[length][breadth].getObstacle() != null)) {
                 board[length][breadth] = new BoardCell(player, board[length][breadth].getObstacleType());
-                if(board[length][breadth].getObstacleType() == ICE){
-                    boardController.setObject(length,breadth,"/Images/playerIce.png");
+                if(board[length][breadth].getObstacleType() == ICE || board[length][breadth].getObstacleType() == SANTA || board[length][breadth].getObstacleType() == PIRATE){
+                    boardController.setObject(length,breadth,getObstacleChangeIconPath(board[length][breadth].getObstacleType()));
                 } else {
-                    boardController.setObject(length,breadth,getObstaclePath(board[length][breadth].getObstacleType()));
+                    boardController.setObject(length,breadth,getObstacleIconPath(board[length][breadth].getObstacleType()));
                 }
             } else {
-                Game game = new Game();
+//                Game game = new Game();
                 board[length][breadth] = new BoardCell(player);
                 boardController.setObject(length,breadth, getPlayerIconPath(player.getColor()));
             }
@@ -48,8 +48,7 @@ public class Board {
                 if (board[length][breadth].getObstacleType() != null) {
                     boardController.removeObject(length,breadth);
                     board[length][breadth] = new BoardCell(board[length][breadth].getObstacleType());
-                    boardController.setObject(length,breadth,getObstaclePath(board[length][breadth].getObstacleType()));
-
+                    boardController.setObject(length,breadth,getObstacleIconPath(board[length][breadth].getObstacleType()));
                 } else {
                     board[length][breadth] = null;
                     boardController.removeObject(length,breadth);
@@ -60,7 +59,7 @@ public class Board {
         }
     }
 
-    public String getObstaclePath(ObstacleType obstacleType){
+    /*public String getObstaclePath(ObstacleType obstacleType){
         if(obstacleType == DANGER){
             return "/Images/danger.png";
         } else if(obstacleType == PILLAR){
@@ -70,7 +69,7 @@ public class Board {
         } else {
             throw new RuntimeException("Obstacle not found!");
         }
-    }
+    }*/
 
     public BoardCell getBoardCell(int length, int breadth) {
         if(length < 0)
