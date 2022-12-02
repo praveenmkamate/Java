@@ -12,14 +12,14 @@
    <children>
       <AnchorPane layoutY="-2.0" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: linear-gradient(#0093E9,#80D0C7);">
          <children>
-            <Text fill="WHITE" layoutX="281.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the board Size " wrappingWidth="137.1097412109375">
+            <Text fill="WHITE" layoutX="280.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the board Size " wrappingWidth="137.1097412109375">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text fill="#efefef" layoutX="307.0" layoutY="262.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Example: 5" wrappingWidth="67.01324462890625" />
-            <TextField fx:id="textGridSize" alignment="CENTER" layoutX="265.0" layoutY="278.0" prefHeight="26.0" prefWidth="150.0" promptText="5" text="5" />
-            <Text fill="WHITE" layoutX="234.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Information" textAlignment="CENTER" wrappingWidth="232.5367431640625">
+            <Text fill="#efefef" layoutX="306.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Example: 5" wrappingWidth="67.01324462890625" />
+            <TextField fx:id="textGridSize" alignment="CENTER" layoutX="264.0" layoutY="214.0" prefHeight="26.0" prefWidth="150.0" promptText="5" text="5" />
+            <Text fill="WHITE" layoutX="224.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Information" textAlignment="CENTER" wrappingWidth="232.5367431640625">
                <font>
                   <Font name="Century Gothic Bold" size="36.0" />
                </font>
@@ -32,12 +32,18 @@
                   <DropShadow />
                </effect>
             </Button>
-            <Text fill="WHITE" layoutX="260.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select the Number of Players">
+            <Text fill="WHITE" layoutX="283.0" layoutY="365.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Players">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <ComboBox fx:id="numberPlayers" layoutX="265.0" layoutY="384.0" prefWidth="150.0" />
+            <ComboBox fx:id="numberPlayers" layoutX="265.0" layoutY="390.0" prefWidth="150.0" />
+            <Text fill="WHITE" layoutX="312.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Difficulty">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <ComboBox fx:id="difficultyBox" layoutX="264.0" layoutY="312.0" prefWidth="150.0" />
          </children>
       </AnchorPane>
    </children>

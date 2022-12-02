@@ -1,5 +1,6 @@
 package view;
 
+import controller.Game;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,15 +22,25 @@ public class GridController {
     @FXML
     TextField textGridSize = new TextField();
 
-    ObservableList<String> options =
+    ObservableList<String> playerOptions =
             FXCollections.observableArrayList(
                     "2", "3", "4", "5", "6", "7", "8", "9", "10"
             );
+
+    ObservableList<String> difficultyOptions =
+            FXCollections.observableArrayList(
+                    "Easy","Medium","Hard"
+            );
     @FXML
-    ComboBox numberPlayers = new ComboBox();
+    ComboBox numberPlayers;
+
+    @FXML
+    ComboBox difficultyBox;
+
 
     public void initializeDropdown() {
-        numberPlayers.setItems(options);
+        numberPlayers.setItems(playerOptions);
+        difficultyBox.setItems(difficultyOptions);
     }
 
     @FXML
@@ -39,6 +50,10 @@ public class GridController {
         int gridSize = Integer.valueOf(textGridSize.getText());
 
         int noPlayers = Integer.valueOf(numberPlayers.getValue().toString());
+
+        String gameDifficulty = difficultyBox.getValue().toString();
+
+        Game.difficulty = gameDifficulty;
 
         if (noPlayers > gridSize) {
             alert.setAlertType(Alert.AlertType.ERROR);

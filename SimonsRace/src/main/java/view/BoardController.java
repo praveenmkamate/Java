@@ -138,11 +138,8 @@ public class BoardController {
         currentPlayer = playerList.get(playerCount);
         playerCount++;
 
-        /*count = dice.generateCount();
-        directions = dice.generateDirection();*/
-
-        count = 2;
-        directions = FORWARD;
+        count = dice.generateCount();
+        directions = dice.generateDirection();
 
         currentPlayer.setScore(calculateScore(currentPlayer.getScore(),count,directions));
         setPlayerName("Previous Player: "+currentPlayer.getName());
