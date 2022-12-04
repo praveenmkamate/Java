@@ -32,7 +32,6 @@ import static controller.Game.makeAMove;
 
 public class BoardController {
 
-
     @FXML
     SplitPane splitPane;
     @FXML
@@ -83,7 +82,6 @@ public class BoardController {
 
     public void initializeBoard(int gSize, int noOfPlayers, List<String> playerNames, Map<String, String> playerColor, Map<String, Integer> playerLane) throws NoSuchMethodException, URISyntaxException {
 
-
         gridSize = gSize;
         double gridWidth = splitPane.getPrefWidth() * 0.75;
         double gridHeight = splitPane.getPrefHeight();
@@ -123,7 +121,7 @@ public class BoardController {
     }
 
     static int playerCount = 0;
-    public void rollDice() throws IOException, InterruptedException {
+    public void rollDice() throws IOException, InterruptedException, ClassNotFoundException {
 
         Dice dice = new Dice();
         Player currentPlayer;
@@ -153,16 +151,19 @@ public class BoardController {
         }
 
         displayScoreArea(playerList);
+
         if(currentPlayer.getRowLocation() == 0){
             currentPlayer.addScore(gridSize*50);
             winnerScreen(currentPlayer);
+        } else {
+            if(playerCount >= playerList.size())
+                playerCount = 0;
+
+            nextPlayer = playerList.get(playerCount);
+
+            playerTurn.setText(nextPlayer.getName());
         }
-        if(playerCount >= playerList.size())
-            playerCount = 0;
 
-        nextPlayer = playerList.get(playerCount);
-
-        playerTurn.setText(nextPlayer.getName());
 
     }
 
@@ -191,7 +192,7 @@ public class BoardController {
         return score;
     }
 
-    public void winnerScreen(Player currentPlayer) throws IOException {
+    public void winnerScreen(Player currentPlayer) throws IOException, ClassNotFoundException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("winScreen.fxml"));
         Parent winScreen = fxmlLoader.load();
 
