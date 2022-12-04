@@ -1,8 +1,9 @@
 package view;
 
-import board.*;
+import board.Board;
+import board.BoardCell;
 import board.Dice;
-import board.Dice.*;
+import board.Dice.Directions;
 import board.Player;
 import controller.Game;
 import javafx.application.Platform;
@@ -15,7 +16,9 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -28,6 +31,7 @@ import java.util.Map;
 
 import static board.Common.ObstacleType.PILLAR;
 import static board.Dice.Directions.FORWARD;
+import static controller.Game.board;
 import static controller.Game.makeAMove;
 
 public class BoardController {
@@ -309,6 +313,7 @@ public class BoardController {
             if (board.getBoardCell(player.getRowLocation() + 1, player.getColLocation()).getPlayer() != null) {
                 backButton.setDisable(true);
 
+
             } else if ((board.getBoardCell(player.getRowLocation() + 1, player.getColLocation()).getObstacleType() == PILLAR)) {
                 backButton.setDisable(true);
             }
@@ -327,7 +332,7 @@ public class BoardController {
         }
     }
 
-    public void checkRight(Board board,Player player){
+    public void checkRight(Board board, Player player){
         if (player.getColLocation() + 1 > gridSize - 1) {
             rightButton.setDisable(true);
         }else if (board.getBoardCell(player.getRowLocation(), player.getColLocation()+1) != null) {

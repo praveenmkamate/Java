@@ -4,7 +4,7 @@ import board.Board;
 import board.Common.ObstacleType;
 import board.Dice.Directions;
 import board.Player;
-import javafx.beans.value.ObservableNumberValue;
+import board.Player.*;
 import obstacle.Obstacle;
 import obstacle.Pillar;
 import view.BoardController;
@@ -120,7 +120,7 @@ public class Game {
                         new Pillar().obstacleCondition(board, currentPlayer, boardController, direction);
                         break;
                     } else if (board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getObstacle() != null) {
-                        Obstacle obs = board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getObstacle();
+                        Obstacle obs = (Obstacle) board.getBoardCell(currentPlayer.getRowLocation() - 1, currentPlayer.getColLocation()).getObstacle();
                         obs.obstacleCondition(board, currentPlayer, boardController, direction);
                         break;
                     }
@@ -138,7 +138,7 @@ public class Game {
                             new Pillar().obstacleCondition(board, currentPlayer, boardController, direction);
                             break;
                         } else if (board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle() != null) {
-                            Obstacle obs = board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle();
+                            Obstacle obs = (Obstacle) board.getBoardCell(currentPlayer.getRowLocation() + 1, currentPlayer.getColLocation()).getObstacle();
                             obs.obstacleCondition(board, currentPlayer, boardController, direction);
                             break;
                         }
@@ -156,7 +156,7 @@ public class Game {
                             new Pillar().obstacleCondition(board, currentPlayer, boardController, direction);
                             break;
                         } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getObstacle() != null) {
-                            Obstacle obs = board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getObstacle();
+                            Obstacle obs = (Obstacle) board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() + 1).getObstacle();
                             obs.obstacleCondition(board, currentPlayer, boardController, direction);
                             break;
                         }
@@ -174,7 +174,7 @@ public class Game {
                             new Pillar().obstacleCondition(board, currentPlayer, boardController, direction);
                             break;
                         } else if (board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle() != null) {
-                            Obstacle obs = board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle();
+                            Obstacle obs = (Obstacle) board.getBoardCell(currentPlayer.getRowLocation(), currentPlayer.getColLocation() - 1).getObstacle();
                             obs.obstacleCondition(board, currentPlayer, boardController, direction);
                             break;
                         }

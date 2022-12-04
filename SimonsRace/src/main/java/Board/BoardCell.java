@@ -1,7 +1,12 @@
 package board;
 
-import obstacle.*;
+import obstacle.Obstacle;
 import board.Common.*;
+import obstacle.Ice;
+import obstacle.Danger;
+import obstacle.Pillar;
+import obstacle.Santa;
+import obstacle.Pirate;
 
 public class BoardCell {
     Player player;
