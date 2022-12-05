@@ -115,7 +115,7 @@ public class BoardController {
             }
         }
 
-        playerList = Game.InitializeBoard(gridSize, noOfPlayers, playerNames, this, playerColor, playerLane);
+        playerList = Game.initializeBoard(gridSize, noOfPlayers, playerNames, this, playerColor, playerLane);
 
         disableDirectionButtons();
 
@@ -216,8 +216,11 @@ public class BoardController {
     public void setObject(int row, int col, String path) throws URISyntaxException {
         StackPane square = (StackPane) boardGridPane.lookup("#"+String.valueOf(row)+String.valueOf(col));
         Image image = new Image(getClass().getResourceAsStream(path),square.getPrefHeight(),square.getPrefWidth(),false,false);
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(square.getPrefHeight());
+        imageView.setFitWidth(square.getPrefWidth());
         square.getChildren().clear();
-        square.getChildren().add(new ImageView(image));
+        square.getChildren().add(imageView);
     }
 
     public void onClickForwardButton(){

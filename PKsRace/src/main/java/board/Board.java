@@ -33,7 +33,6 @@ public class Board {
                     boardController.setObject(length,breadth,getObstacleIconPath(board[length][breadth].getObstacleType()));
                 }
             } else {
-//                Game game = new Game();
                 board[length][breadth] = new BoardCell(player);
                 boardController.setObject(length,breadth, getPlayerIconPath(player.getColor()));
             }
@@ -58,18 +57,6 @@ public class Board {
             System.out.println("Exception on clearBoardCell:" + e);
         }
     }
-
-    /*public String getObstaclePath(ObstacleType obstacleType){
-        if(obstacleType == DANGER){
-            return "/Images/danger.png";
-        } else if(obstacleType == PILLAR){
-            return "/Images/pillar.png";
-        } else if(obstacleType == ICE){
-            return "/Images/ice.png";
-        } else {
-            throw new RuntimeException("Obstacle not found!");
-        }
-    }*/
 
     public BoardCell getBoardCell(int length, int breadth) {
         if(length < 0)

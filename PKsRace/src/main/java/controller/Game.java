@@ -81,7 +81,7 @@ public class Game {
 
     }
 
-    public static List<Player> InitializeBoard(int gSize, int noOfPlayers, List<String> playerNames, BoardController boardController, Map<String, String> playerColor, Map<String, Integer> playerLane) throws URISyntaxException {
+    public static List<Player> initializeBoard(int gSize, int noOfPlayers, List<String> playerNames, BoardController boardController, Map<String, String> playerColor, Map<String, Integer> playerLane) throws URISyntaxException {
 
         playerList.clear();
         gridSize = gSize;

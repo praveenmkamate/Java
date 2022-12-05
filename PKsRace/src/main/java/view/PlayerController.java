@@ -89,8 +89,6 @@ public class PlayerController {
 
             ComboBox location = new ComboBox(playerLocation);
             vBoxLocation.getChildren().add(location);
-
-            //textFields[i - 1] = tf;
         }
 
         vBoxLabel.setLayoutX(122);

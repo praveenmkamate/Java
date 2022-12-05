@@ -62,11 +62,4 @@ public class Obstacle {
         this.name = name;
     }
 
-    public String getInitial() {
-        return initial;
-    }
-
-    public void setInitial(String initial) {
-        this.initial = initial;
-    }
 }
