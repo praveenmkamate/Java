@@ -1,6 +1,7 @@
 package controller;
 
 import board.Board;
+import board.Common;
 import board.Common.ObstacleType;
 import board.Dice.Directions;
 import board.Player;
@@ -88,7 +89,15 @@ public class Game {
         board = new Board(gridSize);
 
         placePlayersOnBoard(boardController, playerNames, playerColor, playerLane);
-        placeObstaclesOnBoard(boardController);
+        //placeObstaclesOnBoard(boardController);
+
+        for(int i=0;i<gSize; i++ ){
+            initializeObstacle(board, DANGER, 3, i);
+            initializeObstacle(board, DANGER, 4, i);
+            initializeObstacle(board, DANGER, 2, i);
+            initializeObstacle(board, DANGER, 5, i);
+        }
+
 
         return playerList;
 
@@ -194,7 +203,8 @@ public class Game {
     }
 
     public static void initializeObstacle(Board board, ObstacleType obstacleType, int row, int column) {
-        board.setObstacleOnBoard(row - 1, column - 1, obstacleType);
+        board.setObstacleOnBoard(row, column, obstacleType);
+
     }
 
     public static void movePlayer(Player currentPlayer, Directions directions, BoardController boardController) {

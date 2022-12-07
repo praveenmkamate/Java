@@ -22,10 +22,13 @@ class DangerTest {
     private Board board;
     private Obstacle obstacle;
 
+    int gridSize = 5;
+
+
     @BeforeEach
     public void setup() {
         boardController = mock(BoardController.class);
-        board = new Board(5);
+        board = new Board(gridSize);
         testPlayer = new Player("TestPlayer", "Red");
         testPlayer.setLocation(2, 3);
         board.setPlayerOnBoard(2, 3, testPlayer);
@@ -33,8 +36,8 @@ class DangerTest {
         obstacle = new Danger();
 
         Game.count = 1;
-        Game.startCell.put(testPlayer, 3);
-        Game.gridSize = 5;
+        Game.startCell.put(testPlayer, 3+1);
+        Game.gridSize = gridSize;
     }
 
     @Test
@@ -42,17 +45,81 @@ class DangerTest {
         int count = 1;
         Directions direction = FORWARD;
 
+        System.out.println("Before");
+        board.printBoard();
+        System.out.println(" ");
+
+        assertTrue(board.getBoardCell(2, 3) != null);
+        obstacle.obstacleCondition(board, testPlayer, boardController, direction);
+
+        assertTrue(testPlayer.getRowLocation() == gridSize-1);
+        assertTrue(testPlayer.getColLocation() == 3);
+        assertTrue(board.getBoardCell(2, 3) == null);
+
+        System.out.println("After");
+        board.printBoard();
+    }
+
+    @Test
+    void obstacleConditionTestBackward() {
+        int count = 1;
+        Directions direction = BACKWARD;
+
+        System.out.println("Before");
+        board.printBoard();
+
+        System.out.println(" ");
+
+        assertTrue(board.getBoardCell(2, 3) != null);
+        obstacle.obstacleCondition(board, testPlayer, boardController, direction);
+
+        assertTrue(testPlayer.getRowLocation() == gridSize-1);
+        assertTrue(testPlayer.getColLocation() == 3);
+        assertTrue(board.getBoardCell(2, 3) == null);
+
+        System.out.println("After");
+        board.printBoard();
+    }
+
+    @Test
+    void obstacleConditionTestLeft() {
+        int count = 1;
+        Directions direction = LEFT;
+
+        System.out.println("Before");
+        board.printBoard();
+
+        System.out.println(" ");
+
+        assertTrue(board.getBoardCell(2, 3) != null);
+        obstacle.obstacleCondition(board, testPlayer, boardController, direction);
+
+        assertTrue(testPlayer.getRowLocation() == gridSize-1);
+        assertTrue(testPlayer.getColLocation() == 3);
+        assertTrue(board.getBoardCell(2, 3) == null);
+
+        System.out.println("After");
+        board.printBoard();
+    }
+
+    @Test
+    void obstacleConditionTestRight() {
+        int count = 1;
+        Directions direction = RIGHT;
+
+        assertTrue(board.getBoardCell(2, 3) != null);
+        System.out.println("Before");
         board.printBoard();
 
         System.out.println(" ");
 
         obstacle.obstacleCondition(board, testPlayer, boardController, direction);
 
-
-        assertTrue(testPlayer.getRowLocation() == 4);
-        assertTrue(testPlayer.getColLocation() == 2);
+        assertTrue(testPlayer.getRowLocation() == gridSize-1);
+        assertTrue(testPlayer.getColLocation() == 3);
         assertTrue(board.getBoardCell(2, 3) == null);
 
+        System.out.println("After");
         board.printBoard();
     }
 }
