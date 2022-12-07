@@ -1,5 +1,7 @@
 package board;
 
+import static board.Dice.Directions.*;
+
 public class Dice {
 
     private int maxValue;
@@ -15,7 +17,7 @@ public class Dice {
         MISS
     }
 
-    private Directions[] directions = new Directions[] {Directions.FORWARD,Directions.FORWARD,Directions.BACKWARD,Directions.MISS};
+    private Directions[] directions = new Directions[] {FORWARD, FORWARD,BACKWARD,MISS};
 
     public Dice() {
         maxValue = 4;

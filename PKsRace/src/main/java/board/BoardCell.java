@@ -14,6 +14,9 @@ public class BoardCell {
 
     ObstacleType obstacleType;
 
+    public BoardCell() {
+    }
+
     public BoardCell(Common.ObstacleType obstacleType) {
         this.obstacleType = obstacleType;
         this.obstacle = createObstacle(obstacleType);

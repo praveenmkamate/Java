@@ -2,6 +2,10 @@ package board;
 
 import board.Common.ObstacleType;
 import controller.Game;
+import obstacle.Danger;
+import obstacle.Ice;
+import obstacle.Pillar;
+import obstacle.Pirate;
 import view.BoardController;
 
 import static board.Common.*;
@@ -61,7 +65,10 @@ public class Board {
     public BoardCell getBoardCell(int length, int breadth) {
         if(length < 0)
             length = 0;
-        return board[length][breadth];
+        if(board[length][breadth] == null)
+            return null;
+        else
+            return board[length][breadth];
     }
 
     public Board(int length) {
@@ -77,6 +84,35 @@ public class Board {
         this.breadth = breadth;
 
         board = new BoardCell[length][breadth];
+    }
+
+    public void printBoard() {
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < breadth; j++) {
+                if (board[i][j] == null) {
+                    System.out.print("_ ");
+                } else if (board[i][j].getObstacle() != null){
+                    if((board[i][j].getObstacle()) instanceof Pillar){
+                        System.out.print("(Pl)");
+                    } else if ((board[i][j].getObstacle()) instanceof Danger){
+                        System.out.print("(D)");
+                    } else if ((board[i][j].getObstacle()) instanceof Ice){
+                        System.out.print("(I)");
+                    } else if ((board[i][j].getObstacle()) instanceof Pirate){
+                        System.out.print("(Pr)");
+                    } else if ((board[i][j].getObstacle()) instanceof Danger){
+                        System.out.print("(S)");
+                    } else {
+                        throw new RuntimeException("Unknown Object on the board");
+                    }
+                } else if (board[i][j].getPlayer() != null){
+                    System.out.print(board[i][j].getPlayer().getName().substring(0,1) +" ");
+                } else {
+                    throw new RuntimeException("Unknown Object on the board");
+                }
+            }
+            System.out.println("\n");
+        }
     }
 
 }

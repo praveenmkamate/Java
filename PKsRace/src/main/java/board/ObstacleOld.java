@@ -1,6 +1,6 @@
 package board;
 
-public class Obstacle {
+public class ObstacleOld {
     String name;
     int rowLocation;
     int colLocation;
@@ -15,7 +15,7 @@ public class Obstacle {
         DANGER
     }
 
-    public Obstacle(String name, String initial, ObstacleType type) {
+    public ObstacleOld(String name, String initial, ObstacleType type) {
         this.name = name;
         this.initial = initial;
         this.type = type;
@@ -29,7 +29,7 @@ public class Obstacle {
         this.type = type;
     }
 
-    public Obstacle(String name) {
+    public ObstacleOld(String name) {
         this.name = name;
     }
 

@@ -1,7 +1,6 @@
 package view;
 
 import board.Board;
-import board.BoardCell;
 import board.Dice;
 import board.Dice.Directions;
 import board.Player;
@@ -31,7 +30,6 @@ import java.util.Map;
 
 import static board.Common.ObstacleType.PILLAR;
 import static board.Dice.Directions.FORWARD;
-import static controller.Game.board;
 import static controller.Game.makeAMove;
 
 public class BoardController {
@@ -81,10 +79,8 @@ public class BoardController {
     Directions returnDirection = null;
     int gridSize;
 
-    public static boolean isWin = false;
 
-
-    public void initializeBoard(int gSize, int noOfPlayers, List<String> playerNames, Map<String, String> playerColor, Map<String, Integer> playerLane) throws NoSuchMethodException, URISyntaxException {
+    public void initializeBoard(int gSize, int noOfPlayers, List<String> playerNames, Map<String, String> playerColor, Map<String, Integer> playerLane) throws URISyntaxException {
 
         gridSize = gSize;
         double gridWidth = splitPane.getPrefWidth() * 0.75;
@@ -125,7 +121,7 @@ public class BoardController {
     }
 
     static int playerCount = 0;
-    public void rollDice() throws IOException, InterruptedException, ClassNotFoundException {
+    public void rollDice() throws IOException, ClassNotFoundException {
 
         Dice dice = new Dice();
         Player currentPlayer;
@@ -185,11 +181,11 @@ public class BoardController {
         if(directions == FORWARD){
             score += (count*2);
         } else if(directions == Directions.BACKWARD){
-            score -= (count*1);
+            score -= (count);
         } else if(directions == Directions.LEFT){
-            score += (count*1);
+            score += (count);
         } else if (directions == Directions.RIGHT){
-            score += (count*1);
+            score += (count);
         } else {
             score += 0;
         }
@@ -213,7 +209,7 @@ public class BoardController {
         stage.show();
     }
 
-    public void setObject(int row, int col, String path) throws URISyntaxException {
+    public void setObject(int row, int col, String path) {
         StackPane square = (StackPane) boardGridPane.lookup("#"+String.valueOf(row)+String.valueOf(col));
         Image image = new Image(getClass().getResourceAsStream(path),square.getPrefHeight(),square.getPrefWidth(),false,false);
         ImageView imageView = new ImageView(image);
@@ -347,7 +343,7 @@ public class BoardController {
         }
     }
 
-    public void removeObject(int row, int col) throws URISyntaxException {
+    public void removeObject(int row, int col) {
         StackPane square = (StackPane) boardGridPane.lookup("#"+String.valueOf(row)+String.valueOf(col));
         square.getChildren().clear();
     }
