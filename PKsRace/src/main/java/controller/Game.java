@@ -89,15 +89,7 @@ public class Game {
         board = new Board(gridSize);
 
         placePlayersOnBoard(boardController, playerNames, playerColor, playerLane);
-        //placeObstaclesOnBoard(boardController);
-
-        for(int i=0;i<gSize; i++ ){
-            initializeObstacle(board, DANGER, 3, i);
-            initializeObstacle(board, DANGER, 4, i);
-            initializeObstacle(board, DANGER, 2, i);
-            initializeObstacle(board, DANGER, 5, i);
-        }
-
+        placeObstaclesOnBoard(boardController);
 
         return playerList;
 
@@ -111,7 +103,6 @@ public class Game {
         System.out.println("Current Player: " + currentPlayer.getName() + " Count: " + count + " Direction: " + direction.toString() + " Row: " + (currentPlayer.getRowLocation() - 1));
 
         count = countValue;
-        //duplicateCount = countValue;
         edgeCase = false;
 
         while (count > 0 && edgeCase == false) {
