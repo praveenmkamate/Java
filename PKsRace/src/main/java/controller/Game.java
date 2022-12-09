@@ -111,7 +111,7 @@ public class Game {
         System.out.println("Current Player: " + currentPlayer.getName() + " Count: " + count + " Direction: " + direction.toString() + " Row: " + (currentPlayer.getRowLocation() - 1));
 
         count = countValue;
-        duplicateCount = countValue;
+        //duplicateCount = countValue;
         edgeCase = false;
 
         while (count > 0 && edgeCase == false) {

@@ -147,6 +147,7 @@ public class BoardController {
             currentPlayer.setMissNextTurn(false);
             currentPlayer.removeScore(10);
         } else {
+            Game.duplicateCount = count;
             makeAMove(count, directions, this,currentPlayer);
         }
 

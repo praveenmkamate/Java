@@ -2,10 +2,7 @@ package board;
 
 import board.Common.ObstacleType;
 import controller.Game;
-import obstacle.Danger;
-import obstacle.Ice;
-import obstacle.Pillar;
-import obstacle.Pirate;
+import obstacle.*;
 import view.BoardController;
 
 import static board.Common.*;
@@ -18,12 +15,12 @@ public class Board {
 
     private BoardCell[][] board;
 
-    public void setObstacleOnBoard(int length, int breadth, ObstacleType obstacleType) {
-        board[length][breadth] = new BoardCell(obstacleType);
-    }
-
     public void setPlayerOnBoard(int length, int breadth, Player player) {
         board[length][breadth] = new BoardCell(player);
+    }
+
+    public void setObstacleOnBoard(int length, int breadth, ObstacleType obstacleType) {
+        board[length][breadth] = new BoardCell(obstacleType);
     }
 
 
@@ -91,6 +88,20 @@ public class Board {
             for (int j = 0; j < breadth; j++) {
                 if (board[i][j] == null) {
                     System.out.print("_ ");
+                } else if (board[i][j].getObstacle() != null && board[i][j].getPlayer() != null){
+                    if((board[i][j].getObstacle()) instanceof Pillar){
+                        System.out.print("(Pl"+board[i][j].getPlayer().getName().substring(0,1)+")");
+                    } else if ((board[i][j].getObstacle()) instanceof Danger){
+                        System.out.print("(D"+board[i][j].getPlayer().getName().substring(0,1)+")");
+                    } else if ((board[i][j].getObstacle()) instanceof Ice){
+                        System.out.print("(I"+board[i][j].getPlayer().getName().substring(0,1)+")");
+                    } else if ((board[i][j].getObstacle()) instanceof Pirate){
+                        System.out.print("(Pr"+board[i][j].getPlayer().getName().substring(0,1)+")");
+                    } else if ((board[i][j].getObstacle()) instanceof Santa){
+                        System.out.print("(S"+board[i][j].getPlayer().getName().substring(0,1)+")");
+                    } else {
+                        throw new RuntimeException("Unknown Object on the board");
+                    }
                 } else if (board[i][j].getObstacle() != null){
                     if((board[i][j].getObstacle()) instanceof Pillar){
                         System.out.print("(Pl)");
@@ -100,7 +111,7 @@ public class Board {
                         System.out.print("(I)");
                     } else if ((board[i][j].getObstacle()) instanceof Pirate){
                         System.out.print("(Pr)");
-                    } else if ((board[i][j].getObstacle()) instanceof Danger){
+                    } else if ((board[i][j].getObstacle()) instanceof Santa){
                         System.out.print("(S)");
                     } else {
                         throw new RuntimeException("Unknown Object on the board");

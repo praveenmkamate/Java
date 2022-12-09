@@ -19,8 +19,6 @@ public class Ice implements Obstacle {
         if (count == 0) {
             currentPlayer.removeScore(10);
             currentPlayer.setMissNextTurn(true);
-            boardController.setDisplayInformation("You stepped on the ice! You will miss the next turn.");
-
         }
         movePlayer(currentPlayer, directions, boardController);
         makeAMove(count, directions, boardController, currentPlayer);

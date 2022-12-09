@@ -28,6 +28,7 @@ public class BoardCell {
 
     public BoardCell(Player player, ObstacleType obstacleType) {
         this.player = player;
+        this.obstacle = createObstacle(obstacleType);
         this.obstacleType = obstacleType;
     }
 
