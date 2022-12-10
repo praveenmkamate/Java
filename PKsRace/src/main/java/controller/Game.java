@@ -17,6 +17,8 @@ import static board.Common.*;
 import static board.Common.ObstacleType.*;
 import static board.Dice.Directions.*;
 
+
+/** **/
 public class Game {
     public static int gridSize;
 
@@ -32,6 +34,10 @@ public class Game {
     public static int count;
     public static int duplicateCount;
 
+    /**
+     * @param boardController
+     * @return
+     **/
     public static void placePlayersOnBoard(BoardController boardController, List<String> playerNames, Map<String, String> playerColor, Map<String, Integer> playerLane) throws URISyntaxException {
         for (int i = 0; i < playerNames.size(); i++) {
             playerList.add(new Player(playerNames.get(i), playerColor.get(playerNames.get(i))));
