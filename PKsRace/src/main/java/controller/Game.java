@@ -22,9 +22,12 @@ public class Game {
 
     public static String difficulty;
 
+    public static boolean edgeCase;
+
     public static List<Player> playerList = new ArrayList<>();
 
     public static Map<Player, Integer> startCell = new HashMap<Player, Integer>();
+    public static Map<Integer,Integer> obstacleLocationTest = new HashMap<>();
     public static Board board;
     public static int count;
     public static int duplicateCount;
@@ -45,6 +48,7 @@ public class Game {
 
         List<String> obstacleLocation = new ArrayList<>();
         List<ObstacleType> obstacles = new ArrayList<>();
+        obstacleLocationTest.clear();
 
         for (ObstacleType obstacleType : ObstacleType.values()) {
             obstacles.add(obstacleType);
@@ -55,8 +59,8 @@ public class Game {
 
         Random random = new Random();
 
-        int rowMinValue = 2;
-        int maxValue = gridSize - 1;
+        int rowMinValue = 1;
+        int maxValue = gridSize - 3;
         int colMinValue = 1;
         int row = 0;
         int col = 0;
@@ -68,9 +72,10 @@ public class Game {
             while (containsLocation){
                 row = (int) ((Math.random() * (maxValue - rowMinValue + 1)) + rowMinValue);
                 col = (int) ((Math.random() * (maxValue - colMinValue + 1)) + colMinValue);
-                String loc = Integer.toString(row)+Integer.toString(col);
+                String loc = row+Integer.toString(col);
                 if(!obstacleLocation.contains(loc)){
                     obstacleLocation.add(loc);
+                    obstacleLocationTest.put(row,col);
                     containsLocation = false;
                 }
             }
@@ -99,7 +104,7 @@ public class Game {
 
         boardController.setDisplayInformation(" ");
 
-        boolean edgeCase;
+//        boolean edgeCase;
         System.out.println("Current Player: " + currentPlayer.getName() + " Count: " + count + " Direction: " + direction.toString() + " Row: " + (currentPlayer.getRowLocation() - 1));
 
         count = countValue;
@@ -195,7 +200,6 @@ public class Game {
 
     public static void initializeObstacle(Board board, ObstacleType obstacleType, int row, int column) {
         board.setObstacleOnBoard(row, column, obstacleType);
-
     }
 
     public static void movePlayer(Player currentPlayer, Directions directions, BoardController boardController) {
@@ -211,8 +215,6 @@ public class Game {
         } else if (directions == LEFT || directions == RIGHT) {
             tempCol = getColValue(tempCol, directions);
             currentPlayer.setColLocation(tempCol);
-        } else {
-            throw new RuntimeException("Not a valid Direction");
         }
 
         board.movePlayerOnBoard(currentPlayer.getRowLocation(), currentPlayer.getColLocation(), currentPlayer, boardController);
