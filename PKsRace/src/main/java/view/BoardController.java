@@ -166,18 +166,14 @@ public class BoardController {
                     color = "MintCream";
                 }
                 square.setStyle("-fx-background-color: " + color + ";");
-                square.setId(String.valueOf(row) + String.valueOf(col));
+                square.setId("r"+row +"c"+ col);
                 square.setPrefWidth(stackPaneWidth);
                 square.setPrefHeight(stackPaneHeight);
                 boardGridPane.add(square, col, row);
             }
         }
 
-        try {
-            playerList = Game.initializeBoard(gridSize, noOfPlayers, playerNames, this, playerColor, playerLane);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+        playerList = Game.initializeBoard(gridSize, noOfPlayers, playerNames, this, playerColor, playerLane);
 
         disableDirectionButtons();
 
@@ -311,7 +307,7 @@ public class BoardController {
      * @param path The path of the image to be placed on the board.
      */
     public void setObject(int row, int col, String path) {
-        StackPane square = (StackPane) boardGridPane.lookup("#" + String.valueOf(row) + String.valueOf(col));
+        StackPane square = (StackPane) boardGridPane.lookup("#r" + row +"c"+col);
         Image image = new Image(getClass().getResourceAsStream(path), square.getPrefHeight(), square.getPrefWidth(), false, false);
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(square.getPrefHeight());
@@ -498,7 +494,7 @@ public class BoardController {
      * @param col The col value of the element.
      */
     public void removeObject(int row, int col) {
-        StackPane square = (StackPane) boardGridPane.lookup("#" + String.valueOf(row) + String.valueOf(col));
+        StackPane square = (StackPane) boardGridPane.lookup("#r" + row +"c"+col);
         square.getChildren().clear();
     }
 

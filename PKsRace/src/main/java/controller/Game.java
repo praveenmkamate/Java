@@ -89,7 +89,6 @@ public class Game {
 
         List<String> obstacleLocation = new ArrayList<>();
         List<ObstacleType> obstacles = new ArrayList<>();
-        obstacleLocationTest.clear();
 
         for (ObstacleType obstacleType : ObstacleType.values()) {
             obstacles.add(obstacleType);
@@ -113,7 +112,7 @@ public class Game {
             while (containsLocation){
                 row = (int) ((Math.random() * (maxValue - rowMinValue + 1)) + rowMinValue);
                 col = (int) ((Math.random() * (maxValue - colMinValue + 1)) + colMinValue);
-                String loc = row+Integer.toString(col);
+                String loc = row+":"+Integer.toString(col);
                 if(!obstacleLocation.contains(loc)){
                     obstacleLocation.add(loc);
                     obstacleLocationTest.put(row,col);
@@ -122,7 +121,8 @@ public class Game {
             }
 
             initializeObstacle(board, obstacles.get(obstacleNumber), row, col);
-            boardController.setObject(row - 1, col - 1, getObstacleIconPath(obstacles.get(obstacleNumber)));
+//            boardController.setObject(row - 1, col - 1, getObstacleIconPath(obstacles.get(obstacleNumber)));
+            boardController.setObject(row , col , getObstacleIconPath(obstacles.get(obstacleNumber)));
 
         }
 

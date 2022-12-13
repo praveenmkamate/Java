@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 class GameTest {
 
     @Test
-    void testPlacePlayersOnBoard() throws URISyntaxException {
+    void testPlacePlayersOnBoard() {
 
         Game.board = new Board(5);
         Game.gridSize = 5;
@@ -58,7 +58,7 @@ class GameTest {
     }
 
     @Test
-    void initializeBoardTest() throws URISyntaxException {
+    void initializeBoardTest() {
 
         Game.board = new Board(5);
         Game.difficulty = "Easy";
@@ -256,7 +256,7 @@ class GameTest {
     }
 
     @Test
-    void testPlaceObstaclesOnBoard() throws URISyntaxException {
+    void testPlaceObstaclesOnBoard() {
         BoardController boardController = mock(BoardController.class);
 
 
