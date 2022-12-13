@@ -17,21 +17,41 @@ import java.util.List;
 
 import static board.Score.finalPlayerList;
 
+/**
+ * This is controller for the top score.
+ */
 public class TopScoresController {
 
+    /**
+     * The button to play the game again.
+     */
     @FXML
     Button btnPlayAgain;
 
+    /**
+     * VBOX to display the player names.
+     */
     @FXML
     VBox vBoxName;
 
+    /**
+     * VBOX to display the player scores.
+     */
     @FXML
     VBox vBoxScore;
 
+    /**
+     * This method is called when the play again button is clicked.
+     */
     @FXML
-    public void btnPlayAgainClicked() throws IOException {
+    public void btnPlayAgainClicked() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("welcomeScreen.fxml"));
-        Parent welcomeScreen = fxmlLoader.load();
+        Parent welcomeScreen = null;
+        try {
+            welcomeScreen = fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(welcomeScreen);
 
@@ -43,22 +63,26 @@ public class TopScoresController {
         stage.show();
     }
 
-    public void displayTopScores(List<Player> topScores){
+    /**
+     * This method is used to display the top 10 scores of players.
+     * @param topScores The list of players to display the top 10 scores.
+     */
+    public void displayTopScores(List<Player> topScores) {
         int count = 0;
 
-        Comparator<Player> c = (p1, p2) -> ((Integer)p2.getScore()).compareTo(p1.getScore());
+        Comparator<Player> c = (p1, p2) -> ((Integer) p2.getScore()).compareTo(p1.getScore());
         topScores.sort(c);
 
         Text nameHeader = new Text("Player Name");
-        Text scoreHeader  = new Text("Top Score");
+        Text scoreHeader = new Text("Top Score");
 
         vBoxName.getChildren().add(nameHeader);
         vBoxScore.getChildren().add(scoreHeader);
 
-        while (count<10 && count<topScores.size()){
+        while (count < 10 && count < topScores.size()) {
 
             Text name = new Text(topScores.get(count).getName());
-            Text score  = new Text(Integer.toString(topScores.get(count).getScore()));
+            Text score = new Text(Integer.toString(topScores.get(count).getScore()));
 
             vBoxName.getChildren().add(name);
             vBoxScore.getChildren().add(score);

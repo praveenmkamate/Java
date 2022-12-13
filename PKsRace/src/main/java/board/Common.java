@@ -10,14 +10,30 @@ public class Common {
      * This used to control the type of obstacles we can create.
      */
     public enum ObstacleType {
+        /**
+         * This is the pillar obstacle type.
+         */
         PILLAR,
+        /**
+         * This is the ice obstacle type.
+         */
         ICE,
+        /**
+         * This is the danger obstacle type.
+         */
         DANGER,
+        /**
+         * This is the santa obstacle type.
+         */
         SANTA,
+        /**
+         * This is the pirate obstacle type.
+         */
         PIRATE
     }
 
     /**
+     * This method is used to get the row value.
      * @param row       The row value whose next value of row has to be calculated.
      * @param direction The direction in which the player has to move.
      * @return This returns the next value of row in which the player has to be moved to.
@@ -34,6 +50,7 @@ public class Common {
     }
 
     /**
+     * This is used to get column value.
      * @param col       The col value whose next value of col has to be calculated.
      * @param direction The direction in which the player has to move.
      * @return This returns the next value of col in which the player has to be moved to.
@@ -50,6 +67,7 @@ public class Common {
     }
 
     /**
+     * This method gets the difficulty value to place obstacles.
      * @param difficulty The difficulty of the game selected by the user.
      * @return Returns the difficulty value for corresponding difficulty.
      */
@@ -67,6 +85,7 @@ public class Common {
 
 
     /**
+     * This method is used to get the icon path for players.
      * @param color The color selected by the Player.
      * @return This returns the icon path of the player for corresponding colour.
      */
@@ -97,6 +116,7 @@ public class Common {
     }
 
     /**
+     * This method is used to the obstacle icons.
      * @param obstacleType This represents the type of obstacle.
      * @return This returns the icon path for the obstacle.
      */
@@ -118,6 +138,7 @@ public class Common {
     }
 
     /**
+     * This method is used to get updated icon for obstacle.
      * @param obstacleType This represents the type of obstacle.
      * @return This returns the icon path for changed icon of the obstacle.
      */

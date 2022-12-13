@@ -20,25 +20,56 @@ import static board.Dice.Directions.*;
 
 /** **/
 public class Game {
+    /**
+     * This variable is used to store the board size.
+     */
     public static int gridSize;
 
+    /**
+     * This variable is used to store the difficulty set by user.
+     */
     public static String difficulty;
 
+    /**
+     * This is used in cases of miss a turn or when user reaches end of the board.
+     */
     public static boolean edgeCase;
 
+    /**
+     * This is used to store the player list in the current game.
+     */
     public static List<Player> playerList = new ArrayList<>();
 
+    /**
+     * This is used to store the starting cell of the user. This will be used in case of danger obstacle.
+     */
     public static Map<Player, Integer> startCell = new HashMap<Player, Integer>();
+    /**
+     * This is used to test the obstacle placement.
+     */
     public static Map<Integer,Integer> obstacleLocationTest = new HashMap<>();
+    /**
+     * This is used to create a board.
+     */
     public static Board board;
+    /**
+     * This is used to store the count value of the dice. It gets updated with each step of user movement.
+     */
     public static int count;
+    /**
+     * This is used to store the count value of the dice. It doesn't get updated with each step of user movement.
+     */
     public static int duplicateCount;
 
+
     /**
-     * @param boardController
-     * @return
-     **/
-    public static void placePlayersOnBoard(BoardController boardController, List<String> playerNames, Map<String, String> playerColor, Map<String, Integer> playerLane) throws URISyntaxException {
+     * This method is used to place players on the board.
+     * @param boardController This is used to changes on the front end of the board.
+     * @param playerNames This is used to store the player names of the current game.
+     * @param playerColor This is used to store the player color of the current game.
+     * @param playerLane This is used to store the player lane of the current game.
+     */
+    public static void placePlayersOnBoard(BoardController boardController, List<String> playerNames, Map<String, String> playerColor, Map<String, Integer> playerLane) {
         for (int i = 0; i < playerNames.size(); i++) {
             playerList.add(new Player(playerNames.get(i), playerColor.get(playerNames.get(i))));
         }
@@ -50,7 +81,11 @@ public class Game {
         }
     }
 
-    public static void placeObstaclesOnBoard(BoardController boardController) throws URISyntaxException {
+    /**
+     * This is used to place the obstacles on the board.
+     * @param boardController This is used to changes on the front end of the board.
+     */
+    public static void placeObstaclesOnBoard(BoardController boardController) {
 
         List<String> obstacleLocation = new ArrayList<>();
         List<ObstacleType> obstacles = new ArrayList<>();
@@ -65,8 +100,8 @@ public class Game {
 
         Random random = new Random();
 
-        int rowMinValue = 1;
-        int maxValue = gridSize - 3;
+        int rowMinValue = 2;
+        int maxValue = gridSize - 2;
         int colMinValue = 1;
         int row = 0;
         int col = 0;
@@ -93,7 +128,17 @@ public class Game {
 
     }
 
-    public static List<Player> initializeBoard(int gSize, int noOfPlayers, List<String> playerNames, BoardController boardController, Map<String, String> playerColor, Map<String, Integer> playerLane) throws URISyntaxException {
+    /**
+     * This method is to initialize the board when the game is started.
+     * @param gSize This variable is used to store the board size.
+     * @param noOfPlayers This variable is used to store the number of players.
+     * @param playerNames This is used to store the player names of the current game.
+     * @param boardController This is used to changes on the front end of the board.
+     * @param playerColor This is used to store the player color of the current game.
+     * @param playerLane This is used to store the player lane of the current game.
+     * @return This method returns the list of players.
+     */
+    public static List<Player> initializeBoard(int gSize, int noOfPlayers, List<String> playerNames, BoardController boardController, Map<String, String> playerColor, Map<String, Integer> playerLane){
 
         playerList.clear();
         gridSize = gSize;
@@ -106,6 +151,13 @@ public class Game {
 
     }
 
+    /**
+     * This method is used move player on the board. This handles the movement of player on the player.
+     * @param countValue The remaining value to move the player.
+     * @param direction The direction of the user.
+     * @param boardController This is used to changes on the front end of the board.
+     * @param currentPlayer This refers to the current player.
+     */
     public static void makeAMove(int countValue, Directions direction, BoardController boardController, Player currentPlayer) {
 
         boardController.setDisplayInformation(" ");
@@ -199,15 +251,35 @@ public class Game {
 
     }
 
+    /**
+     * This method initializes player on the board.
+     * @param board This refers to the current board object.
+     * @param player This refers to the current player.
+     * @param row This refers to the row value on the board.
+     * @param column This refers to the column value on the board.
+     */
     public static void initializePlayer(Board board, Player player, int row, int column) {
         board.setPlayerOnBoard(row - 1, column - 1, player);
         player.setLocation(row - 1, column - 1);
     }
 
+    /**
+     * This method initializes obstacle on the board.
+     * @param board This refers to the current board object.
+     * @param obstacleType This refers to the obstacle type.
+     * @param row This refers to the row value on the board.
+     * @param column This refers to the column value on the board.
+     */
     public static void initializeObstacle(Board board, ObstacleType obstacleType, int row, int column) {
         board.setObstacleOnBoard(row, column, obstacleType);
     }
 
+    /**
+     * This method is used to make an actual move by clearing the current cell, updating player object location, moving the player to next cell.
+     * @param currentPlayer This refers to the current player.
+     * @param directions This refers to the direction in which player is moving.
+     * @param boardController This is used to changes on the front end of the board.
+     */
     public static void movePlayer(Player currentPlayer, Directions directions, BoardController boardController) {
 
         int tempRow = currentPlayer.getRowLocation();

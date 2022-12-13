@@ -21,49 +21,106 @@ import java.net.URISyntaxException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * This class is used to take in details regarding the players.
+ */
 public class PlayerController {
 
+    /**
+     * The anchor pane on which the elements are placed.
+     */
     @FXML
     AnchorPane anchorPane;
 
+    /**
+     * The button to start the game.
+     */
     @FXML
     Button btnStartGame;
+    /**
+     * VBOX of the player labels.
+     */
     @FXML
     VBox vBoxLabel = new VBox(15);
 
+    /**
+     * VBOX of the text boxes.
+     */
     @FXML
     VBox vBoxText = new VBox(5);
 
+    /**
+     * VBOX of the color options to players.
+     */
     @FXML
     VBox vBoxColor = new VBox(5);
 
+    /**
+     * VBOX of the lane options to the players.
+     */
     @FXML
     VBox vBoxLocation = new VBox(5);
 
+    /**
+     * This represents the size of the board.
+     */
     private int gridSize;
+    /**
+     * This represents the number of players in current game.
+     */
     private int noOfPlayers;
 
+    /**
+     * This stores the list of available colors to the players.
+     */
     ObservableList<String> colors =
             FXCollections.observableArrayList(
                     "Black", "Blue", "Green", "Neon", "Orange", "Pink", "Purple", "Red", "White", "Yellow"
             );
 
+    /**
+     * This stores the list of lanes of the players.
+     */
     ObservableList<Integer> playerLocation = FXCollections.observableArrayList();
 
+    /**
+     * This list is used store the player names.
+     */
     private List<String> pNames = new ArrayList<>();
+    /**
+     * This list is used store the player colors.
+     */
     private List<String> pColors = new ArrayList<>();
+    /**
+     * This list is used store the player lanes.
+     */
     private List<Integer> pLanes = new ArrayList<>();
 
+    /**
+     * This map is used store the player color to corresponding player.
+     */
     private Map<String, String> playerColor = new HashMap<>();
 
+    /**
+     * This map is used store the player lane to corresponding player.
+     */
     private Map<String, Integer> playerLane = new HashMap<>();
 
+    /**
+     * @param list The list in which duplicates have to be checked
+     * @return the number of duplicates in the list
+     * Reference: Stack Overflow
+     */
     private static <T> Set<T> findDuplicates(List<T> list) {
         return list.stream().distinct()
                 .filter(i -> Collections.frequency(list, i) > 1)
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * @param gridSize The size of the board.
+     * @param noOfPlayers The number of players in the current game.
+     */
     public void receiveData(int gridSize, int noOfPlayers) {
 
         this.gridSize = gridSize;
@@ -107,6 +164,10 @@ public class PlayerController {
 
     }
 
+    /**
+     * This method is used to display an error on the page.
+     * @param error The error message to be displayed on the front end.
+     */
     public void displayError(String error) {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setAlertType(Alert.AlertType.ERROR);
@@ -116,8 +177,11 @@ public class PlayerController {
 
     }
 
+    /**
+     * This method is called when start game button is clicked.
+     */
     @FXML
-    protected void onClickStartGame() throws IOException, NoSuchMethodException, URISyntaxException {
+    protected void onClickStartGame() {
         boolean fieldEmptyError = false;
         boolean duplicateError = false;
 
@@ -167,7 +231,12 @@ public class PlayerController {
         } else {
             getData(pNames,pColors,pLanes);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("boardScreen.fxml"));
-            Parent boardScreen = fxmlLoader.load();
+            Parent boardScreen = null;
+            try {
+                boardScreen = fxmlLoader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
             BoardController boardController = fxmlLoader.getController();
             boardController.initializeBoard(gridSize, noOfPlayers, pNames, playerColor, playerLane);
@@ -185,6 +254,11 @@ public class PlayerController {
 
     }
 
+    /**
+     * @param pNames The names of the players.
+     * @param pColors The colors of the players.
+     * @param pLanes The lanes of the players.
+     */
     private void getData(List<String> pNames, List<String> pColors, List<Integer> pLanes) {
         for(int i=0;i<pNames.size();i++){
             playerColor.put(pNames.get(i),pColors.get(i));

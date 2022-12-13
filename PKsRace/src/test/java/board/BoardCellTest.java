@@ -1,6 +1,7 @@
 package board;
 
 import obstacle.Ice;
+
 import org.junit.jupiter.api.Test;
 
 import static board.Common.ObstacleType.ICE;

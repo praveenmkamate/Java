@@ -33,20 +33,20 @@ public class Board {
     private BoardCell[][] board;
 
     /**
+     * This method is used to place the players on the board.
      * @param length  represents on which row the player has to be placed on the board.
      * @param breadth represents on which column the player has to be placed on the board.
      * @param player  represents the player which has to be placed on the board.
-     *                This method is used to place the players on the board.
      */
     public void setPlayerOnBoard(int length, int breadth, Player player) {
         board[length][breadth] = new BoardCell(player);
     }
 
     /**
+     *                     This method is used to place the obstacles on the board.
      * @param length       represents on which row the player has to be placed on the board.
      * @param breadth      represents on which column the player has to be placed on the board.
      * @param obstacleType represents the obstacle type which has to be placed on the board.
-     *                     This method is used to place the obstacles on the board.
      */
     public void setObstacleOnBoard(int length, int breadth, ObstacleType obstacleType) {
         board[length][breadth] = new BoardCell(obstacleType);
@@ -54,11 +54,11 @@ public class Board {
 
 
     /**
+     * This method is used to move the player on the board.
      * @param length          represents on which row the player has to be moved to on the board.
      * @param breadth         represents on which column the player has to be moved to on the board.
      * @param player          represents the player who has to be moved.
      * @param boardController represents the JavaFX board controller used to display the changes on the front end of the board.
-     *                        This method is used to move the player on the board.
      */
     public void movePlayerOnBoard(int length, int breadth, Player player, BoardController boardController) {
         try {
@@ -79,10 +79,10 @@ public class Board {
     }
 
     /**
+     * This method is used to clear the player from the board cell of the board.
      * @param length          represents on which row the player has to be removed from the board.
      * @param breadth         represents on which column the player has to be removed from the board.
      * @param boardController represents the JavaFX board controller used to display the changes on the front end of the board.
-     *                        This method is used to clear the player from the board cell of the board.
      */
     public void clearBoardCell(int length, int breadth, BoardController boardController) {
         try {
@@ -102,10 +102,10 @@ public class Board {
     }
 
     /**
+     * This method is used to get the board cell on specific row and column.
      * @param length  represents the row value of the board cell to be fetched.
      * @param breadth represents the column value of the board cell to be fetched.
      * @return BoardCell which can contains a player or obstacle or both.
-     * This method is used to get the board cell on specific row and column.
      */
     public BoardCell getBoardCell(int length, int breadth) {
         if (length < 0)
@@ -117,8 +117,8 @@ public class Board {
     }
 
     /**
+     * Board is a constructor to create a board of required rows and columns.
      * @param length is the number of rows and columns for which board is created.
-     *               Board is a constructor to create a board of required rows and columns.
      */
     public Board(int length) {
 
@@ -129,9 +129,9 @@ public class Board {
     }
 
     /**
+     * Board is a constructor to create a board of required rows and columns.
      * @param length  is the number of rows for which board is created.
      * @param breadth is the number of columns for which board is created.
-     *                Board is a constructor to create a board of required rows and columns.
      */
     public Board(int length, int breadth) {
         this.length = length;

@@ -38,6 +38,7 @@ public class BoardCell {
 
     /**
      * This is a BoardCell constructor used to initialize the obstacle type and create an obstacle of the obstacle type.
+     * @param obstacleType Initialization of the obstacle type.
      */
     public BoardCell(ObstacleType obstacleType) {
         this.obstacleType = obstacleType;
@@ -46,13 +47,17 @@ public class BoardCell {
 
     /**
      * This is a BoardCell constructor used to initialize the player.
+     * @param player Initialization of the player.
      */
     public BoardCell(Player player) {
         this.player = player;
     }
 
+
     /**
      * This is a BoardCell constructor used to initialize the player, the obstacle type and create an obstacle of the obstacle type.
+     * @param player Initialization of the player.
+     * @param obstacleType Initialization of the obstacle type.
      */
     public BoardCell(Player player, ObstacleType obstacleType) {
         this.player = player;
@@ -61,14 +66,15 @@ public class BoardCell {
     }
 
     /**
-     * @return Returns the ObstacleType
      * This method is getter for the ObstacleType.
+     * @return Returns the ObstacleType
      */
     public ObstacleType getObstacleType() {
         return obstacleType;
     }
 
     /**
+     * This method is used to create an obstacle.
      * @param obstacleType The type of obstacle to be created.
      * @return Returns the obstacle created.
      */
@@ -99,8 +105,8 @@ public class BoardCell {
     }
 
     /**
-     * @return Returns the obstacle.
      * This method is getter for the Obstacle.
+     * @return Returns the obstacle.
      */
     public Obstacle getObstacle() {
         if (this.obstacle == null)
@@ -111,8 +117,8 @@ public class BoardCell {
 
 
     /**
-     * @return Returns the player.
      * This method is getter for the player.
+     * @return Returns the player.
      */
     public Player getPlayer() {
         if (this.player == null)
@@ -122,8 +128,8 @@ public class BoardCell {
     }
 
     /**
-     * @param player The player to be initialized to.
      * This method is setter for the player.
+     * @param player The player to be initialized to.
      */
     public void setPlayer(Player player) {
         this.player = player;

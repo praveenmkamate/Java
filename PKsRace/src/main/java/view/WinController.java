@@ -19,37 +19,72 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class handles the screen on which winner is displayed.
+ */
 public class WinController {
+    /**
+     * This is used to display the winner
+     */
     @FXML
     Text winText;
 
+    /**
+     * This is used to display the scores.
+     */
     @FXML
     Text scoreText;
 
+    /**
+     * This is the anchor pane on which rest of the elements are placed.
+     */
     @FXML
     AnchorPane winPane;
 
+    /**
+     * The gif on the winner page.
+     */
     @FXML
     ImageView winnerImage;
 
+    /**
+     * This button is used to play the game again.
+     */
     @FXML
     Button btnPlayAgain;
 
+    /**
+     * This list stores the current list of players.
+     */
     List<Player> topScores = new ArrayList<>();
-    public void receiveData(Player currentPlayer, List<Player> playerList) throws IOException, ClassNotFoundException {
-        winText.setText("Congratulations "+currentPlayer.getName()+"! You won!");
+
+    /**
+     * This method is where initial call of the Java FX code happens.
+     * @param currentPlayer The represents the winner of the game.
+     * @param playerList    This variable stores the list of players.
+     */
+    public void receiveData(Player currentPlayer, List<Player> playerList) {
+        winText.setText("Congratulations " + currentPlayer.getName() + "! You won!");
         winText.setTextAlignment(TextAlignment.CENTER);
 
         scoreText.setTextAlignment(TextAlignment.CENTER);
-        scoreText.setText("Your Score is "+currentPlayer.getScore());
+        scoreText.setText("Your Score is " + currentPlayer.getScore());
 
         Score score = new Score();
         topScores = score.writeScore(playerList);
     }
 
-    public void btnTopScoresClicked() throws IOException {
+    /**
+     * This method calls the top scores screen.
+     */
+    public void btnTopScoresClicked() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("topScores.fxml"));
-        Parent topScoresScreen = fxmlLoader.load();
+        Parent topScoresScreen = null;
+        try {
+            topScoresScreen = fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         TopScoresController topScoresController = fxmlLoader.getController();
         topScoresController.displayTopScores(topScores);
@@ -64,10 +99,17 @@ public class WinController {
         stage.show();
     }
 
-    public void bPlayAgain() throws IOException {
+    /**
+     * This method is called to play the game again.
+     */
+    public void bPlayAgain() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("welcomeScreen.fxml"));
-        Parent welcomeScreen = fxmlLoader.load();
-
+        Parent welcomeScreen = null;
+        try {
+            welcomeScreen = fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
         Scene scene = new Scene(welcomeScreen);

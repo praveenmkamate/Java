@@ -29,10 +29,26 @@ public class Dice {
      * The valid value the directions can have.
      */
     public enum Directions {
+
+        /**
+         * Forward Direction
+         */
         FORWARD,
+        /**
+         * Backward Direction
+         */
         BACKWARD,
+        /**
+         * Right Direction
+         */
         RIGHT,
+        /**
+         * Left Direction
+         */
         LEFT,
+        /**
+         * Miss the chance
+         */
         MISS
     }
 
@@ -49,8 +65,11 @@ public class Dice {
         minValue = 1;
     }
 
+
     /**
      * Constructor used to set the desired maximum value and the desired minimum value.
+     * @param minValue Minimum value for the Dice.
+     * @param maxValue Maximum value for the Dice.
      */
     public Dice(int minValue, int maxValue) {
         this.maxValue = maxValue;
@@ -58,16 +77,16 @@ public class Dice {
     }
 
     /**
-     * @return Returns the generated random number.
      * This method is used to generate the random number.
+     * @return Returns the generated random number.
      */
     private int generateRandomNumber() {
         return (int) ((Math.random() * (maxValue - minValue + 1)) + minValue);
     }
 
     /**
-     * @return Returns the count value
      * This method is used to generate the numerical value of the Dice.
+     * @return Returns the count value
      */
     public int generateCount() {
         count = generateRandomNumber();
@@ -75,8 +94,8 @@ public class Dice {
     }
 
     /**
-     * @return Returns the direction value.
      * This method is used to generate the direction of the Dice.
+     * @return Returns the direction value.
      */
     public Directions generateDirection() {
         direction = directions[generateRandomNumber() - 1];

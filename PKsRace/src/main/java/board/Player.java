@@ -41,9 +41,9 @@ public class Player implements Serializable {
 
 
     /**
+     * This constructor is used initialized the player object with its location.
      * @param rowLocation The row location to be initialized.
      * @param colLocation The column location to be initialized.
-     *                    This constructor is used initialized the player object with its location.
      */
     public Player(int rowLocation, int colLocation) {
         this.rowLocation = rowLocation;
@@ -51,9 +51,9 @@ public class Player implements Serializable {
     }
 
     /**
+     * This constructor is used initialized the player object with its name and color.
      * @param name  The player name to be initialized.
      * @param color The player color to be initialized.
-     *              This constructor is used initialized the player object with its name and color.
      */
     public Player(String name, String color) {
         this.score = 0;
@@ -62,8 +62,8 @@ public class Player implements Serializable {
     }
 
     /**
+     * This constructor is used initialized the player object with its name.
      * @param name The player name to be initialized.
-     *             This constructor is used initialized the player object with its name.
      */
     public Player(String name) {
         this.name = name;
@@ -71,32 +71,32 @@ public class Player implements Serializable {
     }
 
     /**
-     * @return This returns if the value of missNextTurn.
      * This method is getter for the missNextTurn.
+     * @return This returns if the value of missNextTurn.
      */
     public boolean isMissNextTurn() {
         return missNextTurn;
     }
 
     /**
+     * This method is setter for the missNextTurn.
      * @param missNextTurn This is the value of missNextTurn to be updated with.
-     *                     This method is setter for the missNextTurn.
      */
     public void setMissNextTurn(boolean missNextTurn) {
         this.missNextTurn = missNextTurn;
     }
 
     /**
-     * @return This returns the row value of the player.
      * This method is getter for the row value of the player.
+     * @return This returns the row value of the player.
      */
     public int getRowLocation() {
         return rowLocation;
     }
 
     /**
+     * This method is setter for the row value of the player.
      * @param rowLocation This assigns the row value of the player.
-     *                    This method is setter for the row value of the player.
      */
     public void setRowLocation(int rowLocation) {
         if (rowLocation < 0)
@@ -108,22 +108,23 @@ public class Player implements Serializable {
     }
 
     /**
-     * @return This returns the col value of the player.
      * This method is getter for the col value of the player.
+     * @return This returns the col value of the player.
      */
     public int getColLocation() {
         return colLocation;
     }
 
     /**
+     * This method is setter for the col value of the player.
      * @param colLocation This assigns the col value of the player.
-     *                    This method is setter for the col value of the player.
      */
     public void setColLocation(int colLocation) {
         this.colLocation = colLocation;
     }
 
     /**
+     * This method is setter for the player location.
      * @param rowLocation This assigns the row value of the player.
      * @param colLocation This assigns the col value of the player.
      */
@@ -133,24 +134,24 @@ public class Player implements Serializable {
     }
 
     /**
-     * @return This returns the score value of the player.
      * This method is getter for the player score.
+     * @return This returns the score value of the player.
      */
     public int getScore() {
         return score;
     }
 
     /**
+     * This method is setter for the player score.
      * @param score This assigns the score value of the player.
-     *              This method is setter for the player score.
      */
     public void setScore(int score) {
         this.score = score;
     }
 
     /**
-     * @return This returns the name of the player.
      * This method is getter for the player name.
+     * @return This returns the name of the player.
      */
     public String getName() {
         return name;
@@ -158,16 +159,16 @@ public class Player implements Serializable {
 
 
     /**
-     * @return This returns the color of the player.
      * This method is getter for the player color.
+     * @return This returns the color of the player.
      */
     public String getColor() {
         return color;
     }
 
     /**
+     * This method is used to add score to the player score.
      * @param number The value to be added to the score.
-     *               This method is used to add score to the player score.
      */
     public void addScore(int number) {
         if (number > 0) {
@@ -178,8 +179,8 @@ public class Player implements Serializable {
     }
 
     /**
+     * This method is used to remove score from the player score.
      * @param number The value to be removed from the score.
-     *               This method is used to remove score from the player score.
      */
     public void removeScore(int number) {
         if (number > 0) {

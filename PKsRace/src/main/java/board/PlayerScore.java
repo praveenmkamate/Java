@@ -13,6 +13,7 @@ public class PlayerScore implements Serializable {
     List<Player> players;
 
     /**
+     * Constructor to initialize the player list.
      * @param playerList Used to initialize the values for the list of players.
      *
      */
@@ -21,16 +22,16 @@ public class PlayerScore implements Serializable {
     }
 
     /**
-     * @return Used to get the list of players
      * This method is the getter for the list of players.
+     * @return Used to get the list of players
      */
     public List<Player> getPlayers() {
         return players;
     }
 
     /**
+     * This method is the setter of the list of players.
      * @param players Used to assign the list of players.
-     *                This method is the setter of the list of players.
      */
     public void setPlayers(List<Player> players) {
         this.players = players;

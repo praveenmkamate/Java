@@ -15,36 +15,63 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * This class is used to take input from the user regarding the board details.
+ */
 public class GridController {
+    /**
+     * This button is used to navigate to next page.
+     */
     @FXML
     Button btnNext = new Button();
 
+    /**
+     * This is used to take the size of the gird.
+     */
     @FXML
     TextField textGridSize = new TextField();
 
+    /**
+     * This is used to give user to select the number of players.
+     */
     ObservableList<String> playerOptions =
             FXCollections.observableArrayList(
                     "2", "3", "4", "5", "6", "7", "8", "9", "10"
             );
 
+    /**
+     * The options for the difficulty of the game.
+     */
     ObservableList<String> difficultyOptions =
             FXCollections.observableArrayList(
-                    "Easy","Medium","Hard"
+                    "Easy", "Medium", "Hard"
             );
+    /**
+     * Drop down to select number of players.
+     */
     @FXML
     ComboBox numberPlayers;
 
+    /**
+     * Drop down to select the difficulty of the game.
+     */
     @FXML
     ComboBox difficultyBox;
 
 
+    /**
+     * This method is used to initialize the dropdown.
+     */
     public void initializeDropdown() {
         numberPlayers.setItems(playerOptions);
         difficultyBox.setItems(difficultyOptions);
     }
 
+    /**
+     * This method is involved to navigate to next page.
+     */
     @FXML
-    public void onBtnClickNext() throws IOException {
+    public void onBtnClickNext() {
         Alert alert = new Alert(Alert.AlertType.NONE);
 
         int gridSize = Integer.valueOf(textGridSize.getText());
@@ -62,7 +89,12 @@ public class GridController {
             alert.show();
         } else {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("playerScreen.fxml"));
-            Parent playerScreen = fxmlLoader.load();
+            Parent playerScreen = null;
+            try {
+                playerScreen = fxmlLoader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
             PlayerController playerController = fxmlLoader.getController();
             playerController.receiveData(gridSize, noPlayers);

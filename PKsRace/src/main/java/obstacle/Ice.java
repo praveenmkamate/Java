@@ -11,7 +11,17 @@ import board.Dice.Directions;
 
 import static controller.Game.*;
 
+/**
+ * This method has the internal working of the Ice obstacle.
+ */
 public class Ice implements Obstacle {
+    /**
+     * This method is used to implement the obstacle condition for all the obstacles.
+     * @param board           The board object on which obstacle is created.
+     * @param currentPlayer   The player who has encountered the obstacle.
+     * @param boardController This is used to do changes on the Java FX front end.
+     * @param directions      The direction in which the player is currently moving.
+     */
     @Override
     public void obstacleCondition(Board board, Player currentPlayer, BoardController boardController, Directions directions) {
 
