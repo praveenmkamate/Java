@@ -109,7 +109,7 @@ public class PlayerController {
     /**
      * @param list The list in which duplicates have to be checked
      * @return the number of duplicates in the list
-     * Reference: Stack Overflow
+     * Reference: Stack Overflow <https://stackoverflow.com/questions/27677256/java-8-streams-to-find-the-duplicate-elements>
      */
     private static <T> Set<T> findDuplicates(List<T> list) {
         return list.stream().distinct()
@@ -225,8 +225,14 @@ public class PlayerController {
             duplicateError = true;
 
         if (fieldEmptyError) {
+            pNames.clear();
+            pColors.clear();
+            pLanes.clear();
             displayError("Name field cannot be empty.");
         } else if (duplicateError) {
+            pNames.clear();
+            pColors.clear();
+            pLanes.clear();
             displayError("Two Players cannot have same name, color or lane.");
         } else {
             getData(pNames,pColors,pLanes);
